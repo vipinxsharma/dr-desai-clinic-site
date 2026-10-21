@@ -104,17 +104,17 @@ export function waBranchHref(branchName: string) {
   return waHref(`Hello ${SITE.doctorName}, I would like to book an appointment at ${branchName}.`);
 }
 
-export type Service = { slug: string; name: string; image?: { alt: string } };
+export type Service = { slug: string; name: string; image?: { alt: string; src?: string; position?: string } };
 
 export const SERVICES: Service[] = [
   { slug: "diabetes", name: "Diabetes Management & Insulin Therapy", image: { alt: "Glucometer and insulin pen for diabetes management" } },
   { slug: "gdm", name: "Gestational Diabetes (GDM)", image: { alt: "Pregnant woman checking blood sugar for gestational diabetes" } },
-  { slug: "hypertension", name: "Hypertension & Cardiovascular Risk Management", image: { alt: "Blood pressure monitor for hypertension care" } },
-  { slug: "thyroid", name: "Thyroid and Hormonal Disorders Consultation", image: { alt: "Thyroid and hormonal disorder consultation" } },
+  { slug: "hypertension", name: "Hypertension & Cardiovascular Risk Management", image: { alt: "Blood pressure monitor for hypertension care", src: "/images/services/hypertension.jpg", position: "center top" } },
+  { slug: "thyroid", name: "Thyroid and Hormonal Disorders Consultation", image: { alt: "Thyroid and hormonal disorder consultation", src: "/images/services/thyroid.jpg", position: "center 62%" } },
   { slug: "nebulization", name: "Nebulization", image: { alt: "Nebulizer mask for respiratory treatment" } },
-  { slug: "general", name: "General Physician Consultation", image: { alt: "Stethoscope and notes for general physician consultation" } },
-  { slug: "iv-im", name: "IV / IM Injections & IV Drips", image: { alt: "Nurse preparing an injection" } },
-  { slug: "weight", name: "Weight Loss Management & Injections", image: { alt: "Measuring tape for weight loss management" } },
+  { slug: "general", name: "General Physician Consultation", image: { alt: "Stethoscope and notes for general physician consultation", src: "/images/services/general-physician.jpg", position: "center 12%" } },
+  { slug: "iv-im", name: "IV / IM Injections & IV Drips", image: { alt: "Nurse preparing an injection", src: "/images/services/iv-im-injections.jpg", position: "center 0%" } },
+  { slug: "weight", name: "Weight Loss Management & Injections", image: { alt: "Measuring tape for weight loss management", src: "/images/services/weight-loss.jpg", position: "center 55%" } },
   { slug: "infectious", name: "Infectious Diseases & Fever Management" },
   { slug: "respiratory", name: "Respiratory Diseases" },
   { slug: "preventive", name: "Preventive Health Check-ups" },

@@ -13,9 +13,11 @@ type Props = {
   className?: string;
   rounded?: string;
   priority?: boolean;
+  /** CSS object-position for the crop inside the fixed box. */
+  position?: string;
 };
 
-export function ImageSlot({ ratio, alt, label, src, className = "", rounded = "rounded-[10px]", priority }: Props) {
+export function ImageSlot({ ratio, alt, label, src, className = "", rounded = "rounded-[10px]", priority, position }: Props) {
   const style: CSSProperties = { aspectRatio: ratio };
   return (
     <div
@@ -25,7 +27,7 @@ export function ImageSlot({ ratio, alt, label, src, className = "", rounded = "r
       data-image-slot={src ? "filled" : "placeholder"}
     >
       {src ? (
-        <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 400px, 100vw" className="object-cover" priority={priority} />
+        <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw" className="object-cover" style={position ? { objectPosition: position } : undefined} priority={priority} />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-[repeating-linear-gradient(135deg,#e3f0ed_0_10px,#d6e9e5_10px_20px)] p-2 text-center text-[11px] font-semibold uppercase tracking-wide text-teal-800/70">
           {label}
