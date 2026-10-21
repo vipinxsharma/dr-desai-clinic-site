@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #152320;
+  --color-body: #4a5552;
+  --color-muted: #8a8070;
+  --color-teal-950: #083b34;
+  --color-teal-800: #0d6d61;
+  --color-mint: #9fdfd1;
+  --color-mint-strong: #4cc2ae;
+  --color-cream: #faf6ed;
+  --color-note: #eff4fa;
+  --color-line: #edece6;
+  --font-sans: "Helvetica Neue", Arial, "Liberation Sans", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Dashed placeholder for facts the clinic has not confirmed yet. */
+.ph {
+  font-style: italic;
+  color: var(--color-muted);
+  border-bottom: 1px dashed currentColor;
+  white-space: nowrap;
+}
+.on-dark .ph {
+  color: #b9b3a3;
+}
