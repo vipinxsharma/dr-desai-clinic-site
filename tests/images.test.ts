@@ -1,13 +1,23 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { getSlot, IMAGE_SLOTS, SERVICES } from "@/config/site";
 import { ImageSlot } from "@/components/ImageSlot";
 import { resolveImage } from "@/lib/images";
 import { pageMetadata } from "@/lib/seo";
+
+// Lets render tests force "file missing" / "file present" regardless of what is in public/images.
+const force = vi.hoisted(() => ({ value: undefined as string | null | undefined }));
+vi.mock("@/lib/images", async (importOriginal) => {
+  const real = await importOriginal<typeof import("@/lib/images")>();
+  return {
+    ...real,
+    resolveImage: (file: string, root?: string) => (force.value === undefined ? real.resolveImage(file, root) : (force.value ?? undefined)),
+  };
+});
 
 describe("image slot registry", () => {
   it("has unique ids and files, all under public/images, with alt text and sane sizes", () => {
@@ -50,14 +60,18 @@ describe("resolveImage (build-time lookup)", () => {
 
 describe("ImageSlot rendering", () => {
   it("keeps a dashed placeholder with fixed ratio when the file is missing", () => {
+    force.value = null;
     const html = renderToStaticMarkup(createElement(ImageSlot, { slot: "home-hero" }));
     expect(html).toContain('data-image-slot="placeholder"');
     expect(html).toContain("aspect-ratio:540 / 618");
     expect(html).toContain('role="img"');
+    force.value = undefined;
   });
 
   it("renders the image when the file exists, in the same fixed box", () => {
+    force.value = "/images/services/hypertension.jpg";
     const html = renderToStaticMarkup(createElement(ImageSlot, { slot: "svc-hypertension" }));
+    force.value = undefined;
     expect(html).toContain('data-image-slot="filled"');
     expect(html).toContain("aspect-ratio:525 / 204");
     expect(html).toContain("object-position:center top");
