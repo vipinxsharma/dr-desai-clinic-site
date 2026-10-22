@@ -8,14 +8,13 @@ type Props = {
   className?: string;
   rounded?: string;
   priority?: boolean;
-  sizes?: string;
 };
 
 /**
  * Fixed-ratio box (width/height from the slot), so size never depends on the image => zero layout shift.
  * Shows public/images/<slot.file> if it exists at build time, else a dashed placeholder.
  */
-export function ImageSlot({ slot, className = "", rounded = "rounded-[10px]", priority, sizes = "(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw" }: Props) {
+export function ImageSlot({ slot, className = "", rounded = "rounded-[10px]", priority }: Props) {
   const def = getSlot(slot);
   const src = resolveImage(def.file);
   return (
@@ -27,7 +26,7 @@ export function ImageSlot({ slot, className = "", rounded = "rounded-[10px]", pr
       data-slot-id={def.id}
     >
       {src ? (
-        <Image src={src} alt={def.alt} fill sizes={sizes} className="object-cover" style={{ objectPosition: def.position }} priority={priority} />
+        <Image src={src} alt={def.alt} fill sizes={def.sizes} quality={def.quality} className="object-cover" style={{ objectPosition: def.position }} priority={priority} />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-[repeating-linear-gradient(135deg,#e3f0ed_0_10px,#d6e9e5_10px_20px)] p-2 text-center text-[11px] font-semibold uppercase tracking-wide text-teal-800/70">
           {def.label}

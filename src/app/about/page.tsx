@@ -37,7 +37,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1008px] px-5 sm:px-9">
           <div className="grid gap-6 md:grid-cols-[160px_1fr]">
             <div className="mx-auto w-[160px]">
-              <ImageSlot slot="about-doctor" rounded="rounded-[10px]" className="border-[4px] border-teal-800" priority sizes="160px" />
+              <ImageSlot slot="about-doctor" rounded="rounded-[10px]" className="border-[4px] border-teal-800" priority />
             </div>
             <div>
               <h2 className="text-[20px] font-bold">A clinic built around clear, patient-first care</h2>

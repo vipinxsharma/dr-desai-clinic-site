@@ -214,23 +214,34 @@ export type ImageSlotDef = {
   height: number;
   position: string;
   alt: string;
+  /** next/image `sizes` = 2x the REAL rendered CSS width at each breakpoint (measured, see scripts/image-audit.mjs). */
+  sizes: string;
+  /** next/image quality. Must be listed in images.qualities (next.config.ts). */
+  quality: 85 | 90;
 };
 
+// Rendered-width formulas (container = min(100vw, 1200px) with 20px side padding <640px, 36px from 640px):
+const SIZES_CARD = "(min-width: 1200px) 540px, (min-width: 1024px) calc((100vw - 120px) / 2), (min-width: 640px) calc(100vw - 88px), calc(2 * (100vw - 40px))";
+const SIZES_BANNER = "(min-width: 1200px) 2256px, (min-width: 640px) calc(2 * (100vw - 72px)), calc(2 * (100vw - 40px))";
+const SIZES_HERO = "(min-width: 1024px) 484px, (min-width: 768px) 424px, 404px"; // 242 / 212 / 202px inside the 4px frame
+const SIZES_ABOUT = "304px"; // fixed 160px box, 152px inside the 4px frame
+const SIZES_LOGO = "100px"; // fixed 52px box, 50px inside the 1px border
+
 export const IMAGE_SLOTS: ImageSlotDef[] = [
-  { id: "home-hero", page: "Home", name: "Hero doctor photo", label: "Doctor photo", file: "doctor/hero-doctor.jpg", width: 540, height: 618, position: "center", alt: `Portrait of ${SITE.doctorName}, ${SITE.doctorTitle}` },
-  { id: "about-doctor", page: "About", name: "About doctor photo", label: "Doctor photo", file: "doctor/about-doctor.jpg", width: 396, height: 405, position: "center", alt: `${SITE.doctorName} at the consulting desk` },
-  { id: "services-banner", page: "Services", name: "Services banner", label: "Services banner photo", file: "banners/services-banner.jpg", width: 1480, height: 326, position: "center", alt: "Doctor checking a patient's blood pressure" },
-  { id: "svc-diabetes", page: "Home, Services", name: "Service card: Diabetes Management & Insulin Therapy", label: "Diabetes", file: "services/diabetes-management.jpg", width: 525, height: 204, position: "center", alt: "Glucometer and insulin pen for diabetes management" },
-  { id: "svc-gdm", page: "Home, Services", name: "Service card: Gestational Diabetes (GDM)", label: "Gestational", file: "services/gestational-diabetes.jpg", width: 525, height: 204, position: "center", alt: "Pregnant woman checking blood sugar for gestational diabetes" },
-  { id: "svc-hypertension", page: "Home, Services", name: "Service card: Hypertension & Cardiovascular Risk", label: "Hypertension", file: "services/hypertension.jpg", width: 525, height: 204, position: "center top", alt: "Blood pressure monitor for hypertension care" },
-  { id: "svc-thyroid", page: "Services", name: "Service card: Thyroid and Hormonal Disorders", label: "Thyroid", file: "services/thyroid.jpg", width: 525, height: 204, position: "center 62%", alt: "Thyroid and hormonal disorder consultation" },
-  { id: "svc-nebulization", page: "Services", name: "Service card: Nebulization", label: "Nebulization", file: "services/nebulization.jpg", width: 525, height: 204, position: "center", alt: "Nebulizer mask for respiratory treatment" },
-  { id: "svc-general", page: "Home, Services", name: "Service card: General Physician Consultation", label: "General", file: "services/general-physician.jpg", width: 525, height: 204, position: "center 12%", alt: "Stethoscope and notes for general physician consultation" },
-  { id: "svc-iv-im", page: "Services", name: "Service card: IV / IM Injections & IV Drips", label: "IV / IM", file: "services/iv-im-injections.jpg", width: 525, height: 204, position: "center 0%", alt: "Nurse preparing an injection" },
-  { id: "svc-weight", page: "Services", name: "Service card: Weight Loss Management & Injections", label: "Weight loss", file: "services/weight-loss.jpg", width: 525, height: 204, position: "center 55%", alt: "Measuring tape for weight loss management" },
-  { id: "logo", page: "All (header)", name: "Logo", label: "Logo", file: "brand/logo.png", width: 156, height: 156, position: "center", alt: `${SITE.clinicName} logo` },
-  { id: "favicon", page: "All (browser tab)", name: "Favicon", label: "Favicon", file: "brand/favicon.png", width: 512, height: 512, position: "center", alt: `${SITE.clinicName} icon` },
-  { id: "og-share", page: "All (social share / OG)", name: "OG share image", label: "Share image", file: "og/share.jpg", width: 1200, height: 630, position: "center", alt: `${SITE.clinicName}, Kanjurmarg East, Mumbai` },
+  { id: "home-hero", page: "Home", name: "Hero doctor photo", label: "Doctor photo", file: "doctor/hero-doctor.jpg", width: 540, height: 618, position: "center", alt: `Portrait of ${SITE.doctorName}, ${SITE.doctorTitle}`, sizes: SIZES_HERO, quality: 90 },
+  { id: "about-doctor", page: "About", name: "About doctor photo", label: "Doctor photo", file: "doctor/about-doctor.jpg", width: 396, height: 405, position: "center 0%", alt: `${SITE.doctorName} at the consulting desk`, sizes: SIZES_ABOUT, quality: 90 },
+  { id: "services-banner", page: "Services", name: "Services banner", label: "Services banner photo", file: "banners/services-banner.jpg", width: 1480, height: 326, position: "center", alt: "Doctor checking a patient's blood pressure", sizes: SIZES_BANNER, quality: 85 },
+  { id: "svc-diabetes", page: "Home, Services", name: "Service card: Diabetes Management & Insulin Therapy", label: "Diabetes", file: "services/diabetes-management.jpg", width: 525, height: 204, position: "center", alt: "Glucometer and insulin pen for diabetes management", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-gdm", page: "Home, Services", name: "Service card: Gestational Diabetes (GDM)", label: "Gestational", file: "services/gestational-diabetes.jpg", width: 525, height: 204, position: "center", alt: "Pregnant woman checking blood sugar for gestational diabetes", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-hypertension", page: "Home, Services", name: "Service card: Hypertension & Cardiovascular Risk", label: "Hypertension", file: "services/hypertension.jpg", width: 525, height: 204, position: "center top", alt: "Blood pressure monitor for hypertension care", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-thyroid", page: "Services", name: "Service card: Thyroid and Hormonal Disorders", label: "Thyroid", file: "services/thyroid.jpg", width: 525, height: 204, position: "center 62%", alt: "Thyroid and hormonal disorder consultation", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-nebulization", page: "Services", name: "Service card: Nebulization", label: "Nebulization", file: "services/nebulization.jpg", width: 525, height: 204, position: "center", alt: "Nebulizer mask for respiratory treatment", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-general", page: "Home, Services", name: "Service card: General Physician Consultation", label: "General", file: "services/general-physician.jpg", width: 525, height: 204, position: "center 12%", alt: "Stethoscope and notes for general physician consultation", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-iv-im", page: "Services", name: "Service card: IV / IM Injections & IV Drips", label: "IV / IM", file: "services/iv-im-injections.jpg", width: 525, height: 204, position: "center 0%", alt: "Nurse preparing an injection", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-weight", page: "Services", name: "Service card: Weight Loss Management & Injections", label: "Weight loss", file: "services/weight-loss.jpg", width: 525, height: 204, position: "center 55%", alt: "Measuring tape for weight loss management", sizes: SIZES_CARD, quality: 85 },
+  { id: "logo", page: "All (header)", name: "Logo", label: "Logo", file: "brand/logo.png", width: 156, height: 156, position: "center", alt: `${SITE.clinicName} logo`, sizes: SIZES_LOGO, quality: 85 },
+  { id: "favicon", page: "All (browser tab)", name: "Favicon", label: "Favicon", file: "brand/favicon.png", width: 512, height: 512, position: "center", alt: `${SITE.clinicName} icon`, sizes: "512px", quality: 85 },
+  { id: "og-share", page: "All (social share / OG)", name: "OG share image", label: "Share image", file: "og/share.jpg", width: 1200, height: 630, position: "center", alt: `${SITE.clinicName}, Kanjurmarg East, Mumbai`, sizes: "1200px", quality: 85 },
 ];
 
 export type ImageSlotId = (typeof IMAGE_SLOTS)[number]["id"];

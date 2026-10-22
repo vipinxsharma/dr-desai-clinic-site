@@ -35,7 +35,7 @@ export function Header() {
             <Link href="/" className="flex items-center gap-3" aria-label={`${SITE.clinicName} – home`}>
               {/* Logo slot: fixed 52px square. Uses public/images/brand/logo.png when present, else the "D" placeholder. */}
               <span className="relative flex h-[52px] w-[52px] shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-line bg-white text-[26px] font-black text-teal-800 shadow-sm" data-logo-slot={logoSrc ? "filled" : "placeholder"}>
-                {logoSrc ? <Image src={logoSrc} alt={logoSlot.alt} width={52} height={52} className="h-full w-full object-contain" priority /> : <span aria-hidden="true">D</span>}
+                {logoSrc ? <Image src={logoSrc} alt={logoSlot.alt} width={52} height={52} sizes={logoSlot.sizes} quality={logoSlot.quality} className="h-full w-full object-contain" priority /> : <span aria-hidden="true">D</span>}
               </span>
               <span className="text-[17px] font-extrabold leading-tight text-ink sm:text-[19px]">{SITE.clinicName}</span>
             </Link>

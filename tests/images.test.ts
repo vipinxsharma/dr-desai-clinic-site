@@ -32,6 +32,21 @@ describe("image slot registry", () => {
     }
   });
 
+  it("doctor photos use quality 90, everything else 85, with explicit sizes and top-anchored About crop", () => {
+    for (const s of IMAGE_SLOTS) {
+      expect(s.quality).toBe(["home-hero", "about-doctor"].includes(s.id) ? 90 : 85);
+      expect(s.sizes.length).toBeGreaterThan(0);
+    }
+    expect(getSlot("about-doctor").position).toBe("center 0%");
+  });
+
+  it("next.config allows exactly the used qualities and never sets unoptimized", () => {
+    const cfg = fs.readFileSync("next.config.ts", "utf8");
+    expect(cfg).toMatch(/qualities:\s*\[85,\s*90\]/);
+    const src = [fs.readFileSync("src/components/ImageSlot.tsx", "utf8"), fs.readFileSync("src/components/Header.tsx", "utf8"), cfg].join("\n");
+    expect(src).not.toMatch(/unoptimized/);
+  });
+
   it("every service imageSlot exists", () => {
     for (const svc of SERVICES) if (svc.imageSlot) expect(() => getSlot(svc.imageSlot!)).not.toThrow();
   });
