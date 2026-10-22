@@ -195,17 +195,64 @@ export function waLocationHref(loc: Location) {
   return waHref(`Hi, I would like to book an appointment at ${loc.name}.`);
 }
 
-export type Service = { slug: string; name: string; image?: { alt: string; src?: string; position?: string } };
+/**
+ * IMAGE SLOTS: single registry. Every slot has a fixed size/ratio, so adding the file never shifts layout.
+ * Drop the file at public/images/<file> (exact name; .jpg/.jpeg/.png/.webp variants of the same name also work).
+ * Missing file => dashed placeholder, build never fails. No code change needed.
+ * `position` is the crop point inside the fixed box (object-position); tune per image.
+ */
+export type ImageSlotDef = {
+  id: string;
+  page: string;
+  name: string;
+  /** Short caption inside the dashed placeholder. */
+  label: string;
+  /** Path under public/images/. */
+  file: string;
+  /** Recommended upload size in pixels. Ratio is always width / height. */
+  width: number;
+  height: number;
+  position: string;
+  alt: string;
+};
+
+export const IMAGE_SLOTS: ImageSlotDef[] = [
+  { id: "home-hero", page: "Home", name: "Hero doctor photo", label: "Doctor photo", file: "doctor/hero-doctor.jpg", width: 540, height: 618, position: "center", alt: `Portrait of ${SITE.doctorName}, ${SITE.doctorTitle}` },
+  { id: "about-doctor", page: "About", name: "About doctor photo", label: "Doctor photo", file: "doctor/about-doctor.jpg", width: 396, height: 405, position: "center", alt: `${SITE.doctorName} at the consulting desk` },
+  { id: "services-banner", page: "Services", name: "Services banner", label: "Services banner photo", file: "banners/services-banner.jpg", width: 1480, height: 326, position: "center", alt: "Doctor checking a patient's blood pressure" },
+  { id: "svc-diabetes", page: "Home, Services", name: "Service card: Diabetes Management & Insulin Therapy", label: "Diabetes", file: "services/diabetes-management.jpg", width: 525, height: 204, position: "center", alt: "Glucometer and insulin pen for diabetes management" },
+  { id: "svc-gdm", page: "Home, Services", name: "Service card: Gestational Diabetes (GDM)", label: "Gestational", file: "services/gestational-diabetes.jpg", width: 525, height: 204, position: "center", alt: "Pregnant woman checking blood sugar for gestational diabetes" },
+  { id: "svc-hypertension", page: "Home, Services", name: "Service card: Hypertension & Cardiovascular Risk", label: "Hypertension", file: "services/hypertension.jpg", width: 525, height: 204, position: "center top", alt: "Blood pressure monitor for hypertension care" },
+  { id: "svc-thyroid", page: "Services", name: "Service card: Thyroid and Hormonal Disorders", label: "Thyroid", file: "services/thyroid.jpg", width: 525, height: 204, position: "center 62%", alt: "Thyroid and hormonal disorder consultation" },
+  { id: "svc-nebulization", page: "Services", name: "Service card: Nebulization", label: "Nebulization", file: "services/nebulization.jpg", width: 525, height: 204, position: "center", alt: "Nebulizer mask for respiratory treatment" },
+  { id: "svc-general", page: "Home, Services", name: "Service card: General Physician Consultation", label: "General", file: "services/general-physician.jpg", width: 525, height: 204, position: "center 12%", alt: "Stethoscope and notes for general physician consultation" },
+  { id: "svc-iv-im", page: "Services", name: "Service card: IV / IM Injections & IV Drips", label: "IV / IM", file: "services/iv-im-injections.jpg", width: 525, height: 204, position: "center 0%", alt: "Nurse preparing an injection" },
+  { id: "svc-weight", page: "Services", name: "Service card: Weight Loss Management & Injections", label: "Weight loss", file: "services/weight-loss.jpg", width: 525, height: 204, position: "center 55%", alt: "Measuring tape for weight loss management" },
+  { id: "logo", page: "All (header)", name: "Logo", label: "Logo", file: "brand/logo.png", width: 156, height: 156, position: "center", alt: `${SITE.clinicName} logo` },
+  { id: "favicon", page: "All (browser tab)", name: "Favicon", label: "Favicon", file: "brand/favicon.png", width: 512, height: 512, position: "center", alt: `${SITE.clinicName} icon` },
+  { id: "og-share", page: "All (social share / OG)", name: "OG share image", label: "Share image", file: "og/share.jpg", width: 1200, height: 630, position: "center", alt: `${SITE.clinicName}, Kanjurmarg East, Mumbai` },
+];
+
+export type ImageSlotId = (typeof IMAGE_SLOTS)[number]["id"];
+
+export function getSlot(id: string): ImageSlotDef {
+  const slot = IMAGE_SLOTS.find((s) => s.id === id);
+  if (!slot) throw new Error(`Unknown image slot: ${id}`);
+  return slot;
+}
+
+/** Branch locations use live Google Maps embeds (no image slots). */
+export type Service = { slug: string; name: string; /** Image slot id; absent = text-only card. */ imageSlot?: string };
 
 export const SERVICES: Service[] = [
-  { slug: "diabetes", name: "Diabetes Management & Insulin Therapy", image: { alt: "Glucometer and insulin pen for diabetes management" } },
-  { slug: "gdm", name: "Gestational Diabetes (GDM)", image: { alt: "Pregnant woman checking blood sugar for gestational diabetes" } },
-  { slug: "hypertension", name: "Hypertension & Cardiovascular Risk Management", image: { alt: "Blood pressure monitor for hypertension care", src: "/images/services/hypertension.jpg", position: "center top" } },
-  { slug: "thyroid", name: "Thyroid and Hormonal Disorders Consultation", image: { alt: "Thyroid and hormonal disorder consultation", src: "/images/services/thyroid.jpg", position: "center 62%" } },
-  { slug: "nebulization", name: "Nebulization", image: { alt: "Nebulizer mask for respiratory treatment" } },
-  { slug: "general", name: "General Physician Consultation", image: { alt: "Stethoscope and notes for general physician consultation", src: "/images/services/general-physician.jpg", position: "center 12%" } },
-  { slug: "iv-im", name: "IV / IM Injections & IV Drips", image: { alt: "Nurse preparing an injection", src: "/images/services/iv-im-injections.jpg", position: "center 0%" } },
-  { slug: "weight", name: "Weight Loss Management & Injections", image: { alt: "Measuring tape for weight loss management", src: "/images/services/weight-loss.jpg", position: "center 55%" } },
+  { slug: "diabetes", name: "Diabetes Management & Insulin Therapy", imageSlot: "svc-diabetes" },
+  { slug: "gdm", name: "Gestational Diabetes (GDM)", imageSlot: "svc-gdm" },
+  { slug: "hypertension", name: "Hypertension & Cardiovascular Risk Management", imageSlot: "svc-hypertension" },
+  { slug: "thyroid", name: "Thyroid and Hormonal Disorders Consultation", imageSlot: "svc-thyroid" },
+  { slug: "nebulization", name: "Nebulization", imageSlot: "svc-nebulization" },
+  { slug: "general", name: "General Physician Consultation", imageSlot: "svc-general" },
+  { slug: "iv-im", name: "IV / IM Injections & IV Drips", imageSlot: "svc-iv-im" },
+  { slug: "weight", name: "Weight Loss Management & Injections", imageSlot: "svc-weight" },
   { slug: "infectious", name: "Infectious Diseases & Fever Management" },
   { slug: "respiratory", name: "Respiratory Diseases" },
   { slug: "preventive", name: "Preventive Health Check-ups" },

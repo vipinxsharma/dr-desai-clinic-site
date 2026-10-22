@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "prebuild": "node scripts/check-phone.mjs",
-    "check:phone": "node scripts/check-phone.mjs"
+    "check:phone": "node scripts/check-phone.mjs",
+    "images:table": "node --experimental-strip-types --no-warnings scripts/image-slots.mts"
   },
   "dependencies": {
     "next": "^16.4.2",

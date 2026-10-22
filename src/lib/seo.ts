@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import { BRANCHES, MAIN, MMC, PHONE, SITE, SOCIAL, type Location } from "@/config/site";
+import { BRANCHES, getSlot, MAIN, MMC, PHONE, SITE, SOCIAL, type Location } from "@/config/site";
+import { resolveImage } from "@/lib/images";
 import type { Faq } from "@/config/faqs";
 
 export function pageMetadata(opts: { title: string; description: string; path: string }): Metadata {
   const url = `${SITE.url}${opts.path}`;
+  const slot = getSlot("og-share");
+  const ogSrc = resolveImage(slot.file);
+  const images = ogSrc ? [{ url: ogSrc, width: slot.width, height: slot.height, alt: slot.alt }] : undefined;
   return {
     title: opts.title,
     description: opts.description,
@@ -15,7 +19,9 @@ export function pageMetadata(opts: { title: string; description: string; path: s
       siteName: SITE.clinicName,
       locale: "en_IN",
       type: "website",
+      ...(images ? { images } : {}),
     },
+    ...(images ? { twitter: { card: "summary_large_image" as const, title: opts.title, description: opts.description, images: images.map((i) => i.url) } } : {}),
   };
 }
 

@@ -57,7 +57,7 @@ export default function HomePage() {
             <p className="mt-4 text-[16px] text-mint">Consultation fee: {FEES.first} (first visit), {FEES.followUp} (follow-up)</p>
           </div>
           <div className="order-1 mx-auto w-[210px] md:order-2 md:w-full">
-            <ImageSlot ratio="180 / 206" alt={`Portrait of ${SITE.doctorName}, Consultant Physician and Diabetologist`} label="Doctor photo" rounded="rounded-[12px]" className="border-[4px] border-white shadow-xl" priority />
+            <ImageSlot slot="home-hero" rounded="rounded-[12px]" className="border-[4px] border-white shadow-xl" priority sizes="(min-width: 768px) 250px, 210px" />
           </div>
         </div>
       </section>

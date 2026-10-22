@@ -1,11 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
-import { MMC, PLACEHOLDERS, PHONE, SITE, telHref } from "@/config/site";
+import { getSlot, MMC, PLACEHOLDERS, PHONE, SITE, telHref } from "@/config/site";
+import { resolveImage } from "@/lib/images";
 import { Ph } from "./Ph";
 import { Nav } from "./Nav";
 import { CallButton } from "./Buttons";
 import { MailIcon, PhoneIcon } from "./Icons";
 
 export function Header() {
+  const logoSlot = getSlot("logo");
+  const logoSrc = resolveImage(logoSlot.file);
   return (
     <header>
       <div className="on-dark bg-teal-950 text-[15px] text-teal-50">
@@ -29,9 +33,9 @@ export function Header() {
         <div className="mx-auto max-w-[1200px] px-5 py-3 sm:px-9">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <Link href="/" className="flex items-center gap-3" aria-label={`${SITE.clinicName} – home`}>
-              {/* Logo slot: fixed 52px square. Swap for <Image> later; size is constant. */}
-              <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[10px] border border-line bg-white text-[26px] font-black text-teal-800 shadow-sm" data-logo-placeholder aria-hidden="true">
-                D
+              {/* Logo slot: fixed 52px square. Uses public/images/brand/logo.png when present, else the "D" placeholder. */}
+              <span className="relative flex h-[52px] w-[52px] shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-line bg-white text-[26px] font-black text-teal-800 shadow-sm" data-logo-slot={logoSrc ? "filled" : "placeholder"}>
+                {logoSrc ? <Image src={logoSrc} alt={logoSlot.alt} width={52} height={52} className="h-full w-full object-contain" priority /> : <span aria-hidden="true">D</span>}
               </span>
               <span className="text-[17px] font-extrabold leading-tight text-ink sm:text-[19px]">{SITE.clinicName}</span>
             </Link>

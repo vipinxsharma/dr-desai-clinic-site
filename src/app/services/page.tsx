@@ -18,7 +18,7 @@ export default function ServicesPage() {
       <Breadcrumbs trail={[{ name: "Home", path: "/" }, { name: "Services", path: "/services" }]} />
       <section className="bg-cream py-8" aria-labelledby="services-h1">
         <div className="mx-auto max-w-[1200px] px-5 sm:px-9">
-          <ImageSlot ratio="740 / 163" alt="Doctor checking a patient's blood pressure" label="Services banner photo" rounded="rounded-[12px]" priority />
+          <ImageSlot slot="services-banner" rounded="rounded-[12px]" priority sizes="(min-width: 1200px) 1128px, 100vw" />
           <h1 id="services-h1" className="mt-8 text-center text-[26px] font-bold">Services &amp; Areas of Expertise</h1>
           <p className="mt-2 text-center text-[17px] text-body">Everything the clinic treats and offers, in one place.</p>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
