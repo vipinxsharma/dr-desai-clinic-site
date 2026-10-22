@@ -10,10 +10,10 @@ node scripts/screenshots.mjs http://localhost:3000 screenshots   # 1280px + 390p
 ```
 
 ## Where to edit
-All facts live in `src/config/site.ts` (phone, address, timings, branches, services, **social placeholders**) and `src/config/faqs.ts`.
+All facts live in `src/config/site.ts` (phone, MMC number, `LOCATIONS` with addresses/timings, services, **social placeholders**) and `src/config/faqs.ts` (one data file feeding both the FAQ accordion and FAQPage JSON-LD; `needsDoctorReview` flags are internal).
 
 ## Open placeholders (do not invent)
-MMC registration number, clinic email, Sunday timing, Nahar / Powai addresses and timings. They render as dashed `[...]` via `<Ph>` and are kept out of JSON-LD and `llms.txt`.
+Clinic email and main-clinic Sunday timing. They render as dashed `[...]` via `<Ph>` and are kept out of JSON-LD and `llms.txt`.
 
 ## TODO before launch
 - `SITE.url`: confirm production domain (or set `NEXT_PUBLIC_SITE_URL`); canonical, sitemap, schema derive from it.

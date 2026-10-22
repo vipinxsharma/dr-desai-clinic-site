@@ -4,10 +4,9 @@ import { CallButton, WhatsAppButton } from "@/components/Buttons";
 import { ServiceCard } from "@/components/ServiceCard";
 import { FaqSection } from "@/components/Faq";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Ph } from "@/components/Ph";
 import { ChatIcon, ClipboardIcon, CompassIcon, MedicalCrossIcon, StethoscopeIcon } from "@/components/Icons";
 import { HOME_FAQS } from "@/config/faqs";
-import { FEES, HOME_SERVICES, PLACEHOLDERS, SITE, WA_GENERAL } from "@/config/site";
+import { FEES, HOME_SERVICES, MMC, SITE, WA_GENERAL } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -25,7 +24,7 @@ const WHY = [
 
 const FACTS = [
   { k: "Qualification", v: "MBBS, FCPS Medicine, CCGDM" },
-  { k: "Registration", v: "Maharashtra Medical Council" },
+  { k: "Registration", v: `${MMC.council}, Reg. No. ${MMC.number}` },
   { k: "Focus areas", v: "Diabetes" },
   { k: "Clinic since", v: "2026" },
 ];
@@ -70,7 +69,7 @@ export default function HomePage() {
             <p className="text-[15px] font-bold uppercase tracking-wide text-teal-800">About the doctor</p>
             <h2 id="about-heading" className="mt-1 text-[24px] font-bold">{SITE.doctorName}</h2>
             <p className="mt-3 max-w-[460px] text-[17px] leading-[1.8] text-body">
-              MBBS, FCPS Medicine (Rajawadi Hospital, Mumbai), CCGDM (PHFI Chennai). Registered with the Maharashtra Medical Council (MMC), Reg. No. <Ph>{PLACEHOLDERS.mmc.replace("MMC ", "")}</Ph>. Practises general medicine with a focus on diabetes care.
+              MBBS, FCPS Medicine (Rajawadi Hospital, Mumbai), CCGDM (PHFI Chennai). Registered with the Maharashtra Medical Council (MMC), Reg. No. {MMC.number}. Practises general medicine with a focus on diabetes care.
             </p>
           </div>
           <dl className="grid grid-cols-2 gap-3">

@@ -2,10 +2,9 @@ import { ImageSlot } from "@/components/ImageSlot";
 import { FaqSection } from "@/components/Faq";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CallButton } from "@/components/Buttons";
-import { Ph } from "@/components/Ph";
 import { BuildingIcon, CalendarIcon, CapIcon, ClockIcon, ScrollIcon } from "@/components/Icons";
 import { ABOUT_FAQS } from "@/config/faqs";
-import { SITE } from "@/config/site";
+import { MMC, SITE } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -17,7 +16,7 @@ export const metadata = pageMetadata({
 export default function AboutPage() {
   const cards = [
     { Icon: CapIcon, k: "Qualifications", v: <>MBBS, FCPS Medicine, CCGDM</> },
-    { Icon: BuildingIcon, k: "Registration", v: <>Maharashtra Medical Council, Reg. No. <Ph>NUMBER</Ph></> },
+    { Icon: BuildingIcon, k: "Registration", v: <>{MMC.council}, Reg. No. {MMC.number}</> },
     { Icon: ClockIcon, k: "Experience", v: <>6 years in internal medicine &amp; diabetology</> },
     { Icon: CalendarIcon, k: "Clinic established", v: <>2026</> },
     { Icon: ScrollIcon, k: "Currently pursuing", v: <>Certification Course in Diabetes, Royal College of Physicians (UK)</> },
@@ -38,12 +37,12 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1008px] px-5 sm:px-9">
           <div className="grid gap-6 md:grid-cols-[160px_1fr]">
             <div className="mx-auto w-[160px]">
-              <ImageSlot ratio="132 / 135" alt={`${SITE.doctorName} at his consulting desk`} label="Doctor photo" rounded="rounded-[10px]" className="border-[4px] border-teal-800" priority />
+              <ImageSlot ratio="132 / 135" alt={`${SITE.doctorName} at the consulting desk`} label="Doctor photo" rounded="rounded-[10px]" className="border-[4px] border-teal-800" priority />
             </div>
             <div>
               <h2 className="text-[20px] font-bold">A clinic built around clear, patient-first care</h2>
               <p className="mt-3 text-[17px] leading-[1.8] text-body">
-                Consultant Physician and Diabetologist, MBBS, FCPS Medicine (Rajawadi Hospital, Mumbai), CCGDM (PHFI Chennai). 6 years in internal medicine, with a focus on diabetes management. Registered with the Maharashtra Medical Council (MMC), Reg. No. <Ph>REGISTRATION NUMBER</Ph>.
+                Consultant Physician and Diabetologist, MBBS, FCPS Medicine (Rajawadi Hospital, Mumbai), CCGDM (PHFI Chennai). 6 years in internal medicine, with a focus on diabetes management. Registered with the Maharashtra Medical Council (MMC), Reg. No. {MMC.number}.
               </p>
               <p className="mt-3 text-[17px] leading-[1.8] text-body">
                 Consults at {SITE.clinicName}, focused on clear explanations and treatment plans built around each patient&apos;s daily routine.

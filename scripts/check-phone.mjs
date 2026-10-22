@@ -8,6 +8,8 @@ import { join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const ALLOWED = new Set(["918830531546", "8830531546"]);
+// Maharashtra Medical Council registration number (config MMC.number). 10 digits but NOT a phone number.
+export const ALLOWED_NON_PHONE = new Set(["2016040659"]);
 const BUILT = process.argv.includes("--built");
 const SCAN_DIRS = BUILT ? [".next/server/app"] : ["src", "public"];
 const EXTS = new Set([".ts", ".tsx", ".js", ".mjs", ".css", ".txt", ".md", ".json", ".html", ".xml", ".svg", ".body", ".rsc", ".segment"]);
@@ -27,7 +29,7 @@ export function findPhoneNumbers(text) {
   const hits = [];
   for (const m of cleaned.matchAll(PHONE_RE)) {
     const digits = m[0].replace(/\D/g, "");
-    if (!ALLOWED.has(digits)) hits.push(m[0].trim());
+    if (!ALLOWED.has(digits) && !ALLOWED_NON_PHONE.has(digits)) hits.push(m[0].trim());
   }
   // wa.me links must use the approved number exactly.
   for (const m of text.matchAll(/wa\.me\/(\d+)/g)) if (!ALLOWED.has(m[1])) hits.push(`wa.me/${m[1]}`);

@@ -1,11 +1,10 @@
 import { Address } from "@/components/Address";
-import { CallButton, WhatsAppButton } from "@/components/Buttons";
-import { FaqSection } from "@/components/Faq";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ImageSlot } from "@/components/ImageSlot";
+import { FaqSection } from "@/components/Faq";
+import { LocationActions, Timings } from "@/components/LocationBits";
 import { Ph } from "@/components/Ph";
 import { CONTACT_FAQS } from "@/config/faqs";
-import { BRANCHES, MAP, PHONE, PLACEHOLDERS, SITE, TIMINGS, waBranchHref, WA_GENERAL } from "@/config/site";
+import { BRANCHES, MAIN, MAP, PHONE, PLACEHOLDERS, telHref } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -24,43 +23,42 @@ export default function ContactPage() {
           <p className="mt-2 text-center text-[17px] text-body">Call or WhatsApp directly. Every enquiry goes straight to the clinic, no booking form or portal.</p>
 
           {/* MAIN CLINIC */}
-          <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" aria-labelledby="main-clinic">
+          <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" data-location="main">
             <div className="rounded-[10px] border border-line bg-white p-5">
-              <h2 id="main-clinic" className="mb-3 text-[18px] font-bold">{SITE.clinicName}</h2>
+              <h2 className="mb-3 text-[18px] font-bold">{MAIN.name}</h2>
               <Address size="lg" />
               <h3 className="mt-5 text-[17px] font-bold">Timings</h3>
-              <p className="mt-1 text-[16px] leading-[1.7] text-body">{TIMINGS.monSat}</p>
-              <p className="text-[16px] leading-[1.7] text-body">Sunday: <Ph>{PLACEHOLDERS.sunday}</Ph></p>
-              <p className="mt-4 text-[16px] text-body">Phone: <a href={`tel:${PHONE.tel}`} className="font-bold text-teal-800 hover:underline">{PHONE.display}</a></p>
+              <Timings loc={MAIN} />
+              <p className="mt-4 text-[16px] text-body">Phone: <a href={telHref} className="font-bold text-teal-800 hover:underline">{PHONE.display}</a></p>
               <p className="mt-1 text-[16px] text-body">Email: <Ph>{PLACEHOLDERS.email}</Ph></p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <CallButton />
-                <WhatsAppButton href={WA_GENERAL} />
-              </div>
+              <LocationActions loc={MAIN} />
             </div>
             <div className="overflow-hidden rounded-[10px] border border-line bg-white">
-              <div className="relative w-full" style={{ aspectRatio: "4 / 3" }}>
-                <iframe title={MAP.title} src={MAP.embedUrl} className="absolute inset-0 h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+              <div className="relative h-full min-h-[280px] w-full" style={{ aspectRatio: "4 / 3" }}>
+                <iframe title={MAP.title} src={MAP.embedUrl(MAIN)} className="absolute inset-0 h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
               </div>
-              <p className="p-3 text-[15px]"><a href={MAP.openUrl} target="_blank" rel="noopener noreferrer" className="font-bold text-teal-800 hover:underline">Open in Google Maps →</a></p>
             </div>
           </div>
 
           {/* OTHER LOCATIONS */}
           <h2 className="mt-10 text-[20px] font-bold">Also consults at</h2>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-4 grid gap-4 sm:grid-cols-2">
             {BRANCHES.map((b, i) => (
-              <li key={b.slug} className="flex flex-col overflow-hidden rounded-[10px] border border-line bg-white" data-branch={b.slug}>
-                <ImageSlot ratio="213 / 88" alt={`Map placeholder for ${b.name}`} label="Map (address to confirm)" rounded="rounded-none" />
+              <li key={b.slug} className="flex flex-col overflow-hidden rounded-[10px] border border-line bg-white" data-location={b.slug}>
+                <div className="relative w-full" style={{ aspectRatio: "213 / 88" }}>
+                  <iframe title={`Map showing ${b.name}, ${b.place}, Mumbai`} src={MAP.embedUrl(b)} className="absolute inset-0 h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                </div>
                 <div className="flex flex-1 flex-col p-4">
                   <span className="mb-1 inline-block w-fit rounded-full bg-teal-950 px-2.5 py-0.5 text-[13px] font-bold text-mint">0{i + 1}</span>
                   <h3 className="text-[18px] font-bold leading-snug">{b.name}</h3>
-                  <p className="mt-1 text-[16px] leading-[1.6] text-body">Address: <Ph>full address to confirm</Ph></p>
-                  <p className="text-[16px] leading-[1.6] text-body">Fee {b.fee} · {b.distance}</p>
-                  <p className="text-[16px] leading-[1.6] text-body">Timings: <Ph>to confirm</Ph></p>
-                  <div className="mt-4">
-                    <WhatsAppButton variant="solid" label="Book Appointment" href={waBranchHref(b.name)} className="w-full" />
-                  </div>
+                  <address className="mt-1 not-italic text-[16px] leading-[1.6] text-body">
+                    {b.address.lines.map((l) => <span key={l} className="block">{l}</span>)}
+                  </address>
+                  <h4 className="mt-3 text-[16px] font-bold">Timings</h4>
+                  <Timings loc={b} />
+                  {/* TODO(confirm): fee + distance carried from the mockup, see src/config/site.ts */}
+                  <p className="mt-2 text-[16px] leading-[1.6] text-body">Fee {b.fee} · {b.distance}</p>
+                  <div className="mt-auto"><LocationActions loc={b} /></div>
                 </div>
               </li>
             ))}

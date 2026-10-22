@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PLACEHOLDERS, PHONE, SITE, telHref } from "@/config/site";
+import { MMC, PLACEHOLDERS, PHONE, SITE, telHref } from "@/config/site";
 import { Ph } from "./Ph";
 import { Nav } from "./Nav";
 import { CallButton } from "./Buttons";
@@ -11,7 +11,7 @@ export function Header() {
       <div className="on-dark bg-teal-950 text-[15px] text-teal-50">
         <div className="mx-auto flex max-w-[1200px] flex-col gap-1 px-5 py-3 sm:px-9">
           <p>
-            {SITE.qualifications} <span className="mx-1.5">|</span> Reg. No. <Ph>{PLACEHOLDERS.mmc}</Ph>
+            {SITE.qualifications} <span className="mx-1.5">|</span> Reg. No. {MMC.number}
           </p>
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <a href={telHref} className="inline-flex items-center gap-1.5 hover:underline">

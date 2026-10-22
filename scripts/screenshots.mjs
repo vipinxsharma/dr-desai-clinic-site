@@ -15,6 +15,11 @@ for (const [w, h] of Object.entries(sizes)) {
     if (!ok) bad++;
     console.log(`${w}px ${name}: scrollWidth=${sw} clientWidth=${cw} ${ok ? "OK" : "HORIZONTAL SCROLL"}`);
     await page.screenshot({ path: `${out}/${name}-${w}.png`, fullPage: true });
+    if (name === "contact") {
+      // FAQ: first item open, rest closed.
+      await page.locator("[data-faq-item] summary").first().click();
+      await page.locator("section[aria-labelledby=faq-heading]").screenshot({ path: `${out}/contact-faq-${w}.png` });
+    }
   }
   await ctx.close();
 }
