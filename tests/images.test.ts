@@ -47,6 +47,13 @@ describe("image slot registry", () => {
     expect(src).not.toMatch(/unoptimized/);
   });
 
+  it("service-card crop points and edge zooms are as tuned", () => {
+    expect(getSlot("svc-infectious").position).toBe("25% 50%");
+    expect(getSlot("svc-respiratory").position).toBe("8% 50%");
+    for (const s of IMAGE_SLOTS) if (s.zoom !== undefined) expect(s.zoom).toBeGreaterThan(1), expect(s.zoom).toBeLessThanOrEqual(1.15);
+    for (const id of ["svc-ecg", "svc-fitness", "svc-lab", "svc-home-sample"]) expect(getSlot(id).zoom).toBeGreaterThan(1);
+  });
+
   it("every service imageSlot exists", () => {
     for (const svc of SERVICES) if (svc.imageSlot) expect(() => getSlot(svc.imageSlot!)).not.toThrow();
   });
