@@ -1,8 +1,6 @@
 import { ImageSlot } from "@/components/ImageSlot";
 import { ServiceCard } from "@/components/ServiceCard";
-import { FaqSection } from "@/components/Faq";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { SERVICES_FAQS } from "@/config/faqs";
 import { SERVICES } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -30,7 +28,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-      <FaqSection faqs={SERVICES_FAQS} />
     </>
   );
 }

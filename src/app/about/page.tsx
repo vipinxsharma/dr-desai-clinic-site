@@ -1,9 +1,7 @@
 import { ImageSlot } from "@/components/ImageSlot";
-import { FaqSection } from "@/components/Faq";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CallButton } from "@/components/Buttons";
 import { BuildingIcon, CalendarIcon, CapIcon, ClockIcon, ScrollIcon } from "@/components/Icons";
-import { ABOUT_FAQS } from "@/config/faqs";
 import { MMC, SITE } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -74,7 +72,6 @@ export default function AboutPage() {
           <div className="mt-6 flex justify-center"><CallButton /></div>
         </div>
       </section>
-      <FaqSection faqs={ABOUT_FAQS} />
     </>
   );
 }

@@ -1,12 +1,17 @@
-import type { Service } from "@/config/site";
+import { SERVICE_DESCRIPTIONS } from "@/config/service-descriptions";
+import { SIZES_CARD_3, type Service } from "@/config/site";
 import { ImageSlot } from "./ImageSlot";
 
-/** Image-card variant keeps a fixed 175:68 image box; text-only variant has no image box. */
-export function ServiceCard({ service }: { service: Service }) {
+/** Fixed 175:68 image box + title + one-sentence description. `cols={3}` is the Home featured grid. */
+export function ServiceCard({ service, cols = 4 }: { service: Service; cols?: 3 | 4 }) {
+  const description = SERVICE_DESCRIPTIONS[service.slug]?.description;
   return (
     <li className="flex flex-col overflow-hidden rounded-[10px] border border-line bg-white" data-service={service.slug}>
-      {service.imageSlot && <ImageSlot slot={service.imageSlot} rounded="rounded-none" />}
-      <h3 className={`px-4 text-[17px] font-bold leading-snug text-ink ${service.imageSlot ? "py-4" : "flex flex-1 items-center py-5"}`}>{service.name}</h3>
+      {service.imageSlot && <ImageSlot slot={service.imageSlot} rounded="rounded-none" sizes={cols === 3 ? SIZES_CARD_3 : undefined} />}
+      <div className="flex flex-1 flex-col px-4 py-4">
+        <h3 className="text-[17px] font-bold leading-snug text-ink">{service.name}</h3>
+        {description && <p className="mt-2 text-[15px] leading-[1.6] text-body">{description}</p>}
+      </div>
     </li>
   );
 }

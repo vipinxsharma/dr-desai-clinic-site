@@ -1,10 +1,8 @@
 import { Address } from "@/components/Address";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { FaqSection } from "@/components/Faq";
 import { LocationActions, Timings } from "@/components/LocationBits";
 import { Ph } from "@/components/Ph";
-import { CONTACT_FAQS } from "@/config/faqs";
-import { BRANCHES, MAIN, MAP, PHONE, PLACEHOLDERS, telHref } from "@/config/site";
+import { BRANCHES, FEES, MAIN, MAP, PHONE, PLACEHOLDERS, telHref } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -29,6 +27,7 @@ export default function ContactPage() {
               <Address size="lg" />
               <h3 className="mt-5 text-[17px] font-bold">Timings</h3>
               <Timings loc={MAIN} />
+              <p className="mt-2 text-[16px] leading-[1.7] text-body">Consultation fee: {FEES.first} first visit, {FEES.followUp} follow-up.</p>
               <p className="mt-4 text-[16px] text-body">Phone: <a href={telHref} className="font-bold text-teal-800 hover:underline">{PHONE.display}</a></p>
               <p className="mt-1 text-[16px] text-body">Email: <Ph>{PLACEHOLDERS.email}</Ph></p>
               <LocationActions loc={MAIN} />
@@ -65,7 +64,6 @@ export default function ContactPage() {
           </ul>
         </div>
       </section>
-      <FaqSection faqs={CONTACT_FAQS} />
     </>
   );
 }

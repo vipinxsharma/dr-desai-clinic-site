@@ -10,16 +10,20 @@ for (const [w, h] of Object.entries(sizes)) {
   const page = await ctx.newPage();
   for (const [name, path] of Object.entries(pages)) {
     await page.goto(base + path, { waitUntil: "load" });
+    // Scroll through so lazy-loaded images are fetched before the full-page screenshot.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += 500) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15000 }).catch(() => {});
     const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
     const ok = sw <= cw;
     if (!ok) bad++;
     console.log(`${w}px ${name}: scrollWidth=${sw} clientWidth=${cw} ${ok ? "OK" : "HORIZONTAL SCROLL"}`);
     await page.screenshot({ path: `${out}/${name}-${w}.png`, fullPage: true });
-    if (name === "contact") {
-      // FAQ: first item open, rest closed.
-      await page.locator("[data-faq-item] summary").first().click();
-      await page.locator("section[aria-labelledby=faq-heading]").screenshot({ path: `${out}/contact-faq-${w}.png` });
-    }
   }
   await ctx.close();
 }

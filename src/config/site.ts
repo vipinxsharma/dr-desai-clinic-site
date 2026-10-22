@@ -27,6 +27,9 @@ export const PHONE = {
   whatsapp: "918830531546",
 } as const;
 
+/** Experience figure used on Home (hero + At a glance). */
+export const EXPERIENCE = { years: "6+", text: "years in internal medicine and diabetology" } as const;
+
 export const FEES = { first: "₹500", followUp: "₹300" } as const;
 
 /** Unknown facts. UI shows a dashed placeholder; never put these in schema. */
@@ -58,6 +61,8 @@ export type Location = {
   };
   weekly: {
     days: string;
+    /** Short form for compact UI, e.g. "Mon to Sat". */
+    daysShort: string;
     /** Human text, e.g. "9:30 am to 11:30 am and 8:00 pm to 10:00 pm". */
     text: string;
     /** Machine hours for Mon-Sat (JSON-LD openingHoursSpecification). */
@@ -87,6 +92,7 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
     },
     weekly: {
       days: "Monday to Saturday",
+      daysShort: "Mon to Sat",
       text: "9:30 am to 11:30 am and 8:00 pm to 10:00 pm",
       slots: [
         { opens: "09:30", closes: "11:30" },
@@ -112,6 +118,7 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
     },
     weekly: {
       days: "Monday to Saturday",
+      daysShort: "Mon to Sat",
       text: "12:00 pm to 2:00 pm and 6:00 pm to 7:30 pm",
       slots: [
         { opens: "12:00", closes: "14:00" },
@@ -139,6 +146,7 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
     },
     weekly: {
       days: "Monday to Saturday",
+      daysShort: "Mon to Sat",
       text: "4:00 pm to 5:30 pm",
       slots: [{ opens: "16:00", closes: "17:30" }],
     },
@@ -224,6 +232,10 @@ export type ImageSlotDef = {
 
 // Rendered-width formulas (container = min(100vw, 1200px) with 20px side padding <640px, 36px from 640px):
 const SIZES_CARD = "(min-width: 1200px) 540px, (min-width: 1024px) calc((100vw - 120px) / 2), (min-width: 640px) calc(100vw - 88px), calc(2 * (100vw - 40px))";
+/** Home featured services render 3 per row from 1024px (not 4): 2x of (container - 2 gaps) / 3. */
+export const SIZES_CARD_3 = "(min-width: 1200px) 732px, (min-width: 1024px) calc(2 * (100vw - 104px) / 3), (min-width: 640px) calc(100vw - 88px), calc(2 * (100vw - 40px))";
+/** Cards with zoom <= 1.1 (baked-in white edges): 2.2x so the zoomed image still gets >= 2x its on-screen width. */
+const SIZES_CARD_ZOOM = "(min-width: 1200px) 594px, (min-width: 1024px) calc(1.1 * (100vw - 120px) / 2), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(2.2 * (100vw - 40px))";
 const SIZES_BANNER = "(min-width: 1200px) 2256px, (min-width: 640px) calc(2 * (100vw - 72px)), calc(2 * (100vw - 40px))";
 const SIZES_HERO = "(min-width: 1024px) 484px, (min-width: 768px) 424px, 404px"; // 242 / 212 / 202px inside the 4px frame
 const SIZES_ABOUT = "304px"; // fixed 160px box, 152px inside the 4px frame
@@ -244,10 +256,10 @@ export const IMAGE_SLOTS: ImageSlotDef[] = [
   { id: "svc-infectious", page: "Services", name: "Service card: Infectious Diseases & Fever Management", label: "Infectious", file: "services/infectious-diseases-fever.jpg", width: 525, height: 204, position: "25% 50%", alt: "Doctor assessing a patient with fever or infection", sizes: SIZES_CARD, quality: 85 },
   { id: "svc-respiratory", page: "Services", name: "Service card: Respiratory Diseases", label: "Respiratory", file: "services/respiratory-diseases.jpg", width: 525, height: 204, position: "8% 50%", alt: "Doctor listening to a patient's breathing with a stethoscope", sizes: SIZES_CARD, quality: 85 },
   { id: "svc-preventive", page: "Services", name: "Service card: Preventive Health Check-ups", label: "Check-ups", file: "services/preventive-health-checkups.jpg", width: 525, height: 204, position: "center 22%", alt: "Preventive health check-up consultation", sizes: SIZES_CARD, quality: 85 },
-  { id: "svc-fitness", page: "Services", name: "Service card: Medical Fitness Certificates & Pre-operative Evaluation", label: "Fitness", file: "services/medical-fitness-certificates.jpg", width: 525, height: 204, position: "center", zoom: 1.08, alt: "Doctor completing a medical fitness certificate", sizes: SIZES_CARD, quality: 85 },
-  { id: "svc-ecg", page: "Services", name: "Service card: ECG", label: "ECG", file: "services/ecg.jpg", width: 525, height: 204, position: "center", zoom: 1.08, alt: "ECG machine recording a heart tracing", sizes: SIZES_CARD, quality: 85 },
-  { id: "svc-lab", page: "Services", name: "Service card: Laboratory Services", label: "Laboratory", file: "services/laboratory-services.jpg", width: 525, height: 204, position: "center", zoom: 1.06, alt: "Blood sample tubes in a laboratory", sizes: SIZES_CARD, quality: 85 },
-  { id: "svc-home-sample", page: "Services", name: "Service card: Home Blood Sample Collection", label: "Home sample", file: "services/home-blood-sample-collection.jpg", width: 525, height: 204, position: "center", zoom: 1.055, alt: "Technician collecting a blood sample at home", sizes: SIZES_CARD, quality: 85 },
+  { id: "svc-fitness", page: "Services", name: "Service card: Medical Fitness Certificates & Pre-operative Evaluation", label: "Fitness", file: "services/medical-fitness-certificates.jpg", width: 525, height: 204, position: "center", zoom: 1.08, alt: "Doctor completing a medical fitness certificate", sizes: SIZES_CARD_ZOOM, quality: 85 },
+  { id: "svc-ecg", page: "Services", name: "Service card: ECG", label: "ECG", file: "services/ecg.jpg", width: 525, height: 204, position: "center", zoom: 1.08, alt: "ECG machine recording a heart tracing", sizes: SIZES_CARD_ZOOM, quality: 85 },
+  { id: "svc-lab", page: "Services", name: "Service card: Laboratory Services", label: "Laboratory", file: "services/laboratory-services.jpg", width: 525, height: 204, position: "center", zoom: 1.06, alt: "Blood sample tubes in a laboratory", sizes: SIZES_CARD_ZOOM, quality: 85 },
+  { id: "svc-home-sample", page: "Services", name: "Service card: Home Blood Sample Collection", label: "Home sample", file: "services/home-blood-sample-collection.jpg", width: 525, height: 204, position: "center", zoom: 1.055, alt: "Technician collecting a blood sample at home", sizes: SIZES_CARD_ZOOM, quality: 85 },
   { id: "logo", page: "All (header)", name: "Logo", label: "Logo", file: "brand/logo.png", width: 156, height: 156, position: "center", alt: `${SITE.clinicName} logo`, sizes: SIZES_LOGO, quality: 85 },
   { id: "favicon", page: "All (browser tab)", name: "Favicon", label: "Favicon", file: "brand/favicon.png", width: 512, height: 512, position: "center", alt: `${SITE.clinicName} icon`, sizes: "512px", quality: 85 },
   { id: "og-share", page: "All (social share / OG)", name: "OG share image", label: "Share image", file: "og/share.jpg", width: 1200, height: 630, position: "center", alt: `${SITE.clinicName}, Kanjurmarg East, Mumbai`, sizes: "1200px", quality: 85 },
@@ -282,4 +294,6 @@ export const SERVICES: Service[] = [
   { slug: "home-sample", name: "Home Blood Sample Collection", imageSlot: "svc-home-sample" },
 ];
 
-export const HOME_SERVICES = SERVICES.filter((s) => ["diabetes", "gdm", "hypertension", "general"].includes(s.slug));
+/** Six featured services on Home, in display order. */
+export const HOME_SERVICE_SLUGS = ["diabetes", "gdm", "hypertension", "thyroid", "general", "weight"] as const;
+export const HOME_SERVICES = HOME_SERVICE_SLUGS.map((slug) => SERVICES.find((s) => s.slug === slug)!);

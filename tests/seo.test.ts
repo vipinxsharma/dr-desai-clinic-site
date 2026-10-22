@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { ABOUT_FAQS, CONTACT_FAQS, HOME_FAQS, SERVICES_FAQS } from "@/config/faqs";
 import { BRANCHES, LOCATIONS, MMC, PHONE, PLACEHOLDERS, SOCIAL } from "@/config/site";
-import { breadcrumbSchema, clinicSchema, faqSchema, pageMetadata, physicianSchema } from "@/lib/seo";
+import { breadcrumbSchema, clinicSchema, pageMetadata, physicianSchema } from "@/lib/seo";
 
-const all = JSON.stringify([clinicSchema(), physicianSchema(), faqSchema(HOME_FAQS), breadcrumbSchema([{ name: "Home", path: "/" }])]);
+const all = JSON.stringify([clinicSchema(), physicianSchema(), breadcrumbSchema([{ name: "Home", path: "/" }])]);
 
 describe("schema", () => {
   it("clinic schema has the single phone, landmark address and Mon-Sat hours", () => {
@@ -64,11 +63,8 @@ describe("schema", () => {
     expect(all).not.toMatch(/\[[A-Z ]+\]/);
   });
 
-  it("every page has FAQs and FAQ schema covers all of them", () => {
-    for (const f of [HOME_FAQS, ABOUT_FAQS, SERVICES_FAQS, CONTACT_FAQS]) {
-      expect(f.length).toBeGreaterThanOrEqual(3);
-      expect(faqSchema(f).mainEntity).toHaveLength(f.length);
-    }
+  it("has no FAQPage markup (FAQ removed)", () => {
+    expect(all).not.toMatch(/FAQPage|Question/);
   });
 });
 

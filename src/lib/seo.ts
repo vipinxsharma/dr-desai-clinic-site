@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { BRANCHES, getSlot, MAIN, MMC, PHONE, SITE, SOCIAL, type Location } from "@/config/site";
 import { resolveImage } from "@/lib/images";
-import type { Faq } from "@/config/faqs";
 
 export function pageMetadata(opts: { title: string; description: string; path: string }): Metadata {
   const url = `${SITE.url}${opts.path}`;
@@ -98,18 +97,6 @@ export function physicianSchema() {
     worksFor: { "@id": clinicId },
     workLocation: BRANCHES.map(workLocation),
     knowsAbout: ["Diabetes", "Gestational diabetes", "Hypertension", "Thyroid disorders", "General medicine"],
-  };
-}
-
-export function faqSchema(faqs: Faq[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
   };
 }
 

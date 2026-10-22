@@ -2,11 +2,10 @@ import Link from "next/link";
 import { ImageSlot } from "@/components/ImageSlot";
 import { CallButton, WhatsAppButton } from "@/components/Buttons";
 import { ServiceCard } from "@/components/ServiceCard";
-import { FaqSection } from "@/components/Faq";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ChatIcon, ClipboardIcon, CompassIcon, MedicalCrossIcon, StethoscopeIcon } from "@/components/Icons";
-import { HOME_FAQS } from "@/config/faqs";
-import { FEES, HOME_SERVICES, MMC, SITE, WA_GENERAL } from "@/config/site";
+import { Timings } from "@/components/LocationBits";
+import { ALL_LOCATIONS, EXPERIENCE, FEES, HOME_SERVICES, MAIN, MMC, PHONE, SITE, waLocationHref, WA_GENERAL } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -29,6 +28,19 @@ const FACTS = [
   { k: "Clinic since", v: "2026" },
 ];
 
+const GLANCE = [
+  { value: EXPERIENCE.years, label: EXPERIENCE.text },
+  { value: String(ALL_LOCATIONS.length), label: "clinics in Mumbai" },
+  { value: MAIN.weekly.daysShort, label: "consultations" },
+  { value: "MMC registered", label: `Reg. No. ${MMC.number}` },
+];
+
+const STEPS = [
+  { n: "1", title: "Call or WhatsApp to book", text: <>Every enquiry goes straight to the clinic, with no booking form or portal. Call or WhatsApp <span className="whitespace-nowrap">{PHONE.display}</span>.</> },
+  { n: "2", title: "Consultation with clear explanations", text: "Careful history-taking and relevant tests, with every diagnosis and treatment option explained in plain language." },
+  { n: "3", title: "A written plan and a follow-up date", text: "You leave with a written plan, and structured follow-up visits keep your care going beyond a single consultation." },
+];
+
 export default function HomePage() {
   return (
     <>
@@ -48,7 +60,7 @@ export default function HomePage() {
               Expert diabetes &amp; general medicine care, <span className="text-mint-strong">built around you</span>
             </h1>
             <p className="mt-4 max-w-[430px] text-[17px] leading-[1.75] text-teal-50/90">
-              Consultant Physician and Diabetologist, 6 years in internal medicine and diabetology. Clear diagnosis, honest explanations, and a treatment plan that fits your daily life, not the other way around.
+              Consultant Physician and Diabetologist, {EXPERIENCE.years} {EXPERIENCE.text}. Clear diagnosis, honest explanations, and a treatment plan that fits your daily life, not the other way around.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <CallButton variant="white" />
@@ -83,16 +95,61 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TAGLINE BAND */}
+      <section className="on-dark bg-teal-800 py-9 text-center text-white" aria-label="Our approach">
+        <p className="mx-auto max-w-[820px] px-5 text-[22px] font-bold leading-snug sm:px-9 sm:text-[26px]">
+          Every plan is <span className="text-mint">built around you</span>: your routine, your food, your work, your follow-up.
+        </p>
+      </section>
+
       {/* SERVICES */}
       <section className="bg-cream py-12" aria-labelledby="services-heading">
         <div className="mx-auto max-w-[1200px] px-5 sm:px-9">
           <p className="text-center text-[15px] font-bold uppercase tracking-wide text-teal-800">Services</p>
           <h2 id="services-heading" className="mt-1 text-center text-[24px] font-bold">What we treat</h2>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {HOME_SERVICES.map((s) => <ServiceCard key={s.slug} service={s} />)}
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {HOME_SERVICES.map((s) => <ServiceCard key={s.slug} service={s} cols={3} />)}
           </ul>
           <p className="mt-6 text-center">
-            <Link href="/services" className="text-[17px] font-bold text-teal-800 hover:underline">See all services and clinic facilities →</Link>
+            <Link href="/services" className="text-[17px] font-bold text-teal-800 hover:underline">See all services →</Link>
+          </p>
+        </div>
+      </section>
+
+      {/* AT A GLANCE */}
+      <section className="border-y border-line bg-white py-8" aria-labelledby="glance-heading">
+        <div className="mx-auto max-w-[1200px] px-5 sm:px-9">
+          <h2 id="glance-heading" className="sr-only">At a glance</h2>
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-6 text-center lg:grid-cols-4" data-glance>
+            {GLANCE.map((g) => (
+              <li key={g.value} className="px-2">
+                <p className="text-[24px] font-extrabold leading-tight text-teal-800 sm:text-[28px]">{g.value}</p>
+                <p className="mt-1 text-[15px] leading-snug text-body">{g.label}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* WHERE TO MEET DR. DESAI */}
+      <section className="bg-cream py-12" aria-labelledby="meet-heading">
+        <div className="mx-auto max-w-[1200px] px-5 sm:px-9">
+          <p className="text-center text-[15px] font-bold uppercase tracking-wide text-teal-800">Locations</p>
+          <h2 id="meet-heading" className="mt-1 text-center text-[24px] font-bold">Where to meet Dr. Desai</h2>
+          <ul className="mt-6 grid gap-4 md:grid-cols-3" data-home-locations>
+            {ALL_LOCATIONS.map((loc) => (
+              <li key={loc.slug} className="flex flex-col rounded-[10px] border border-line bg-white p-4" data-location={loc.slug}>
+                <h3 className="text-[18px] font-bold leading-snug">{loc.name}</h3>
+                <p className="mt-0.5 text-[15px] font-bold text-teal-800">{loc.address.locality}</p>
+                <div className="mt-3 flex-1"><Timings loc={loc} /></div>
+                <div className="mt-4">
+                  <WhatsAppButton variant="solid" label="Book on WhatsApp" href={waLocationHref(loc)} className="w-full" />
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-center">
+            <Link href="/contact" className="text-[17px] font-bold text-teal-800 hover:underline">Directions and full addresses →</Link>
           </p>
         </div>
       </section>
@@ -115,7 +172,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      <FaqSection faqs={HOME_FAQS} cream />
+      {/* HOW A VISIT WORKS */}
+      <section className="bg-cream py-12" aria-labelledby="visit-heading">
+        <div className="mx-auto max-w-[1000px] px-5 sm:px-9">
+          <p className="text-center text-[15px] font-bold uppercase tracking-wide text-teal-800">Your visit</p>
+          <h2 id="visit-heading" className="mt-1 text-center text-[24px] font-bold">How a visit works</h2>
+          <ol className="mt-6 grid gap-4 md:grid-cols-3" data-visit-steps>
+            {STEPS.map((st) => (
+              <li key={st.n} className="rounded-[10px] border border-line bg-white p-4">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-950 text-[17px] font-bold text-mint" aria-hidden="true">{st.n}</span>
+                <h3 className="mt-2 text-[18px] font-bold leading-snug"><span className="sr-only">Step {st.n}: </span>{st.title}</h3>
+                <p className="mt-1 text-[16px] leading-[1.7] text-body">{st.text}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-6 text-center text-[17px] font-bold text-ink">
+            Consultation fee at the main clinic: {FEES.first} first visit, {FEES.followUp} follow-up.
+          </p>
+        </div>
+      </section>
+
+      {/* CLOSING CTA */}
+      <section className="on-dark bg-teal-800 py-12 text-center text-white" aria-labelledby="cta-heading">
+        <div className="mx-auto max-w-[760px] px-5 sm:px-9">
+          <h2 id="cta-heading" className="text-[26px] font-bold leading-snug">Ready to book your visit?</h2>
+          <p className="mt-2 text-[17px] text-teal-50/90">Call or WhatsApp {PHONE.display}. Every enquiry goes straight to the clinic.</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <CallButton variant="white" />
+            <WhatsAppButton variant="outline-light" label="WhatsApp Us" href={WA_GENERAL} />
+          </div>
+        </div>
+      </section>
     </>
   );
 }
