@@ -15,7 +15,8 @@ describe("locations (single source of truth)", () => {
     expect(LOCATIONS.powai.weekly.text).toBe("4:00 pm to 5:30 pm");
     expect(LOCATIONS.nahar.weekly.text).toBe("12:00 pm to 2:00 pm and 6:00 pm to 7:30 pm");
     expect(LOCATIONS.nahar.sunday).toEqual({ status: "appointment", text: "By appointment only, 11:00 am to 1:00 pm" });
-    expect(LOCATIONS.main.sunday.status).toBe("unconfirmed");
+    expect(LOCATIONS.main.sunday).toEqual({ status: "none" });
+    expect(LOCATIONS.powai.sunday).toEqual({ status: "none" });
   });
 
   it("keeps carried-over fees and distances", () => {

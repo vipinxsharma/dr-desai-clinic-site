@@ -4,8 +4,7 @@ import { CallButton, WhatsAppButton } from "@/components/Buttons";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ChatIcon, ClipboardIcon, CompassIcon, MedicalCrossIcon, StethoscopeIcon } from "@/components/Icons";
-import { Timings } from "@/components/LocationBits";
-import { ALL_LOCATIONS, EXPERIENCE, FEES, HOME_SERVICES, MAIN, MMC, PHONE, SITE, waLocationHref, WA_GENERAL } from "@/config/site";
+import { ALL_LOCATIONS, EXPERIENCE, FEES, HOME_SERVICES, MAIN, MMC, PHONE, SITE, WA_GENERAL } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -36,7 +35,7 @@ const GLANCE = [
 ];
 
 const STEPS = [
-  { n: "1", title: "Call or WhatsApp to book", text: <>Every enquiry goes straight to the clinic, with no booking form or portal. Call or WhatsApp <span className="whitespace-nowrap">{PHONE.display}</span>.</> },
+  { n: "1", title: "Call or WhatsApp to book. Walk-ins are also seen.", text: <>Every enquiry goes straight to the clinic, with no booking form or portal. Call or WhatsApp <span className="whitespace-nowrap">{PHONE.display}</span>.</> },
   { n: "2", title: "Consultation with clear explanations", text: "Careful history-taking and relevant tests, with every diagnosis and treatment option explained in plain language." },
   { n: "3", title: "A written plan and a follow-up date", text: "You leave with a written plan, and structured follow-up visits keep your care going beyond a single consultation." },
 ];
@@ -128,29 +127,6 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      {/* WHERE TO MEET DR. DESAI */}
-      <section className="bg-cream py-12" aria-labelledby="meet-heading">
-        <div className="mx-auto max-w-[1200px] px-5 sm:px-9">
-          <p className="text-center text-[15px] font-bold uppercase tracking-wide text-teal-800">Locations</p>
-          <h2 id="meet-heading" className="mt-1 text-center text-[24px] font-bold">Where to meet Dr. Desai</h2>
-          <ul className="mt-6 grid gap-4 md:grid-cols-3" data-home-locations>
-            {ALL_LOCATIONS.map((loc) => (
-              <li key={loc.slug} className="flex flex-col rounded-[10px] border border-line bg-white p-4" data-location={loc.slug}>
-                <h3 className="text-[18px] font-bold leading-snug">{loc.name}</h3>
-                <p className="mt-0.5 text-[15px] font-bold text-teal-800">{loc.address.locality}</p>
-                <div className="mt-3 flex-1"><Timings loc={loc} /></div>
-                <div className="mt-4">
-                  <WhatsAppButton variant="solid" label="Book on WhatsApp" href={waLocationHref(loc)} className="w-full" />
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 text-center">
-            <Link href="/contact" className="text-[17px] font-bold text-teal-800 hover:underline">Directions and full addresses →</Link>
-          </p>
         </div>
       </section>
 

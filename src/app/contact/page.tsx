@@ -55,7 +55,6 @@ export default function ContactPage() {
                   </address>
                   <h4 className="mt-3 text-[16px] font-bold">Timings</h4>
                   <Timings loc={b} />
-                  {/* TODO(confirm): fee + distance carried from the mockup, see src/config/site.ts */}
                   <p className="mt-2 text-[16px] leading-[1.6] text-body">Fee {b.fee} · {b.distance}</p>
                   <div className="mt-auto"><LocationActions loc={b} /></div>
                 </div>

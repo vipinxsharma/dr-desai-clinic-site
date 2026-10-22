@@ -1,20 +1,14 @@
 import type { Location } from "@/config/site";
-import { directionsHref, PLACEHOLDERS, telHref, waLocationHref } from "@/config/site";
+import { directionsHref, telHref, waLocationHref } from "@/config/site";
 import { PhoneIcon, PinIcon, WhatsAppIcon } from "./Icons";
-import { Ph } from "./Ph";
 
-/** Mon-Sat line, plus the Sunday line from config (placeholder / appointment note / nothing). */
+/** Mon-Sat line, plus a Sunday line only when config has an appointment note. */
 export function Timings({ loc }: { loc: Location }) {
   return (
     <div className="text-[16px] leading-[1.7] text-body" data-timings={loc.slug}>
       <p>
         {loc.weekly.days}: {loc.weekly.text}
       </p>
-      {loc.sunday.status === "unconfirmed" && (
-        <p>
-          Sunday: <Ph>{PLACEHOLDERS.sunday}</Ph>
-        </p>
-      )}
       {loc.sunday.status === "appointment" && <p>Sunday: {loc.sunday.text}</p>}
     </div>
   );

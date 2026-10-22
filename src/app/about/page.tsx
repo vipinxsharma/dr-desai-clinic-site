@@ -2,7 +2,7 @@ import { ImageSlot } from "@/components/ImageSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CallButton } from "@/components/Buttons";
 import { BuildingIcon, CalendarIcon, CapIcon, ClockIcon, ScrollIcon } from "@/components/Icons";
-import { MMC, SITE } from "@/config/site";
+import { EXPERIENCE, MMC, SITE } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -15,7 +15,7 @@ export default function AboutPage() {
   const cards = [
     { Icon: CapIcon, k: "Qualifications", v: <>MBBS, FCPS Medicine, CCGDM</> },
     { Icon: BuildingIcon, k: "Registration", v: <>{MMC.council}, Reg. No. {MMC.number}</> },
-    { Icon: ClockIcon, k: "Experience", v: <>6 years in internal medicine &amp; diabetology</> },
+    { Icon: ClockIcon, k: "Experience", v: <>{EXPERIENCE.years} {EXPERIENCE.text.replace(" and ", " & ")}</> },
     { Icon: CalendarIcon, k: "Clinic established", v: <>2026</> },
     { Icon: ScrollIcon, k: "Currently pursuing", v: <>Certification Course in Diabetes, Royal College of Physicians (UK)</> },
   ];
@@ -40,7 +40,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-[20px] font-bold">A clinic built around clear, patient-first care</h2>
               <p className="mt-3 text-[17px] leading-[1.8] text-body">
-                Consultant Physician and Diabetologist, MBBS, FCPS Medicine (Rajawadi Hospital, Mumbai), CCGDM (PHFI Chennai). 6 years in internal medicine, with a focus on diabetes management. Registered with the Maharashtra Medical Council (MMC), Reg. No. {MMC.number}.
+                Consultant Physician and Diabetologist, MBBS, FCPS Medicine (Rajawadi Hospital, Mumbai), CCGDM (PHFI Chennai). {EXPERIENCE.years} years in internal medicine, with a focus on diabetes management. Registered with the Maharashtra Medical Council (MMC), Reg. No. {MMC.number}.
               </p>
               <p className="mt-3 text-[17px] leading-[1.8] text-body">
                 Consults at {SITE.clinicName}, focused on clear explanations and treatment plans built around each patient&apos;s daily routine.

@@ -27,15 +27,14 @@ export const PHONE = {
   whatsapp: "918830531546",
 } as const;
 
-/** Experience figure used on Home (hero + At a glance). */
-export const EXPERIENCE = { years: "6+", text: "years in internal medicine and diabetology" } as const;
+/** Years of experience, defined once (doctor: "6 years of experience"). Used on Home and About. */
+export const EXPERIENCE = { years: "6", text: "years in internal medicine and diabetology" } as const;
 
 export const FEES = { first: "₹500", followUp: "₹300" } as const;
 
 /** Unknown facts. UI shows a dashed placeholder; never put these in schema. */
 export const PLACEHOLDERS = {
   email: "CLINIC EMAIL",
-  sunday: "Closed / timing",
 } as const;
 
 export type Slot = { opens: string; closes: string };
@@ -68,8 +67,9 @@ export type Location = {
     /** Machine hours for Mon-Sat (JSON-LD openingHoursSpecification). */
     slots: readonly Slot[];
   };
-  sunday: { status: "unconfirmed" } | { status: "appointment"; text: string } | { status: "none" };
-  /** TODO(confirm): fee + distance carried over from the mockup, not re-verified with the clinic. */
+  /** Only an appointment note is ever shown or exported; "none" shows nothing (never "closed"). */
+  sunday: { status: "appointment"; text: string } | { status: "none" };
+  /** Fee and distance, confirmed by the doctor. */
   fee?: string;
   distance?: string;
 };
@@ -99,8 +99,7 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
         { opens: "20:00", closes: "22:00" },
       ],
     },
-    // Sunday not confirmed → dashed placeholder in UI, absent from schema.
-    sunday: { status: "unconfirmed" },
+    sunday: { status: "none" },
   },
   nahar: {
     slug: "nahar",
@@ -126,7 +125,6 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
       ],
     },
     sunday: { status: "appointment", text: "By appointment only, 11:00 am to 1:00 pm" },
-    // TODO(confirm): fee and distance from the mockup.
     fee: "₹1,100",
     distance: "~6 km from clinic",
   },
@@ -151,7 +149,6 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
       slots: [{ opens: "16:00", closes: "17:30" }],
     },
     sunday: { status: "none" },
-    // TODO(confirm): fee and distance from the mockup.
     fee: "₹500",
     distance: "~3 km from clinic",
   },
