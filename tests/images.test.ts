@@ -1,0 +1,111 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { describe, expect, it, vi } from "vitest";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { getSlot, IMAGE_SLOTS, SERVICES } from "@/config/site";
+import { ImageSlot } from "@/components/ImageSlot";
+import { resolveImage } from "@/lib/images";
+import { pageMetadata } from "@/lib/seo";
+
+// Lets render tests force "file missing" / "file present" regardless of what is in public/images.
+const force = vi.hoisted(() => ({ value: undefined as string | null | undefined }));
+vi.mock("@/lib/images", async (importOriginal) => {
+  const real = await importOriginal<typeof import("@/lib/images")>();
+  return {
+    ...real,
+    resolveImage: (file: string, root?: string) => (force.value === undefined ? real.resolveImage(file, root) : (force.value ?? undefined)),
+  };
+});
+
+describe("image slot registry", () => {
+  it("has unique ids and files, all under public/images, with alt text and sane sizes", () => {
+    expect(new Set(IMAGE_SLOTS.map((s) => s.id)).size).toBe(IMAGE_SLOTS.length);
+    expect(new Set(IMAGE_SLOTS.map((s) => s.file)).size).toBe(IMAGE_SLOTS.length);
+    for (const s of IMAGE_SLOTS) {
+      expect(s.file).not.toMatch(/^\/|\.\./);
+      expect(s.alt.length).toBeGreaterThan(5);
+      expect(s.width).toBeGreaterThan(0);
+      expect(s.height).toBeGreaterThan(0);
+      expect(s.position.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("doctor photos use quality 90, everything else 85, with explicit sizes and top-anchored About crop", () => {
+    for (const s of IMAGE_SLOTS) {
+      expect(s.quality).toBe(["home-hero", "about-doctor"].includes(s.id) ? 90 : 85);
+      expect(s.sizes.length).toBeGreaterThan(0);
+    }
+    expect(getSlot("about-doctor").position).toBe("center 0%");
+  });
+
+  it("next.config allows exactly the used qualities and never sets unoptimized", () => {
+    const cfg = fs.readFileSync("next.config.ts", "utf8");
+    expect(cfg).toMatch(/qualities:\s*\[85,\s*90\]/);
+    const src = [fs.readFileSync("src/components/ImageSlot.tsx", "utf8"), fs.readFileSync("src/components/Header.tsx", "utf8"), cfg].join("\n");
+    expect(src).not.toMatch(/unoptimized/);
+  });
+
+  it("service-card crop points and edge zooms are as tuned", () => {
+    expect(getSlot("svc-infectious").position).toBe("25% 50%");
+    expect(getSlot("svc-respiratory").position).toBe("8% 50%");
+    for (const s of IMAGE_SLOTS) {
+      if (s.zoom === undefined) continue;
+      expect(s.zoom).toBeGreaterThan(1);
+      expect(s.zoom).toBeLessThanOrEqual(1.15);
+    }
+    for (const id of ["svc-ecg", "svc-fitness", "svc-lab", "svc-home-sample"]) expect(getSlot(id).zoom).toBeGreaterThan(1);
+  });
+
+  it("every service imageSlot exists", () => {
+    for (const svc of SERVICES) if (svc.imageSlot) expect(() => getSlot(svc.imageSlot!)).not.toThrow();
+  });
+
+  it("folders for every slot exist in the repo", () => {
+    for (const s of IMAGE_SLOTS) expect(fs.existsSync(path.join("public", "images", path.dirname(s.file)))).toBe(true);
+  });
+});
+
+describe("resolveImage (build-time lookup)", () => {
+  it("returns undefined for a missing file and never throws", () => {
+    expect(resolveImage("doctor/definitely-missing.jpg")).toBeUndefined();
+    expect(resolveImage("x.jpg", "/nonexistent/root")).toBeUndefined();
+  });
+
+  it("finds a dropped file by exact name or another common extension, with zero code change", () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "imgs-"));
+    fs.mkdirSync(path.join(root, "public", "images", "doctor"), { recursive: true });
+    expect(resolveImage("doctor/hero-doctor.jpg", root)).toBeUndefined();
+    fs.writeFileSync(path.join(root, "public", "images", "doctor", "hero-doctor.png"), "x");
+    expect(resolveImage("doctor/hero-doctor.jpg", root)).toBe("/images/doctor/hero-doctor.png");
+    fs.writeFileSync(path.join(root, "public", "images", "doctor", "hero-doctor.jpg"), "x");
+    expect(resolveImage("doctor/hero-doctor.jpg", root)).toBe("/images/doctor/hero-doctor.jpg");
+  });
+});
+
+describe("ImageSlot rendering", () => {
+  it("keeps a dashed placeholder with fixed ratio when the file is missing", () => {
+    force.value = null;
+    const html = renderToStaticMarkup(createElement(ImageSlot, { slot: "home-hero" }));
+    expect(html).toContain('data-image-slot="placeholder"');
+    expect(html).toContain("aspect-ratio:540 / 618");
+    expect(html).toContain('role="img"');
+    force.value = undefined;
+  });
+
+  it("renders the image when the file exists, in the same fixed box", () => {
+    force.value = "/images/services/hypertension.jpg";
+    const html = renderToStaticMarkup(createElement(ImageSlot, { slot: "svc-hypertension" }));
+    force.value = undefined;
+    expect(html).toContain('data-image-slot="filled"');
+    expect(html).toContain("aspect-ratio:525 / 204");
+    expect(html).toContain("object-position:center top");
+  });
+
+  it("OG metadata only appears when the share image exists", () => {
+    const m = pageMetadata({ title: "T", description: "D", path: "/" });
+    const hasFile = resolveImage(getSlot("og-share").file) !== undefined;
+    expect(Boolean(m.openGraph && "images" in m.openGraph)).toBe(hasFile);
+  });
+});
