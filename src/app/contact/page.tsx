@@ -19,9 +19,9 @@ export default function ContactPage() {
     <>
       <Breadcrumbs trail={[{ name: "Home", path: "/" }, { name: "Contact & Visit Us", path: "/contact" }]} />
       <section className="bg-cream py-10" aria-labelledby="contact-h1">
-        <div className="mx-auto max-w-[1200px] px-5 sm:px-9">
-          <h1 id="contact-h1" className="text-center text-[26px] font-bold">Contact &amp; Visit Us</h1>
-          <p className="mt-2 text-center text-[17px] text-body">Call or WhatsApp directly. Every enquiry goes straight to the clinic, no booking form or portal.</p>
+        <div className="container-page">
+          <h1 id="contact-h1" className="text-center text-title font-bold">Contact &amp; Visit Us</h1>
+          <p className="mt-2 text-center text-lead text-body">Call or WhatsApp directly. Every enquiry goes straight to the clinic, no booking form or portal.</p>
 
           {/* MAIN CLINIC */}
           <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" data-location="main">

@@ -259,15 +259,15 @@ export type ImageSlotDef = {
   quality: 85 | 90;
 };
 
-// Rendered-width formulas (container = min(100vw, 1200px) with 20px side padding <640px, 36px from 640px):
-const SIZES_CARD = "(min-width: 1200px) 540px, (min-width: 1024px) calc((100vw - 120px) / 2), (min-width: 640px) calc(100vw - 88px), calc(2 * (100vw - 40px))";
+// Rendered-width formulas (container-page: max 1360px / 1600px from 1700px, side padding 20px <640, 32px 640-1023, 48px from 1024):
+const SIZES_CARD = "(min-width: 1700px) 728px, (min-width: 1360px) 608px, (min-width: 1024px) calc((100vw - 144px) / 2), (min-width: 640px) calc(100vw - 80px), calc(2 * (100vw - 40px))";
 /** Home featured services render 3 per row from 1024px (not 4): 2x of (container - 2 gaps) / 3. */
-export const SIZES_CARD_3 = "(min-width: 1200px) 732px, (min-width: 1024px) calc(2 * (100vw - 104px) / 3), (min-width: 640px) calc(100vw - 88px), calc(2 * (100vw - 40px))";
+export const SIZES_CARD_3 = "(min-width: 1700px) 982px, (min-width: 1360px) 822px, (min-width: 1024px) calc(2 * (100vw - 128px) / 3), (min-width: 640px) calc(100vw - 80px), calc(2 * (100vw - 40px))";
 /** Cards with zoom <= 1.1 (baked-in white edges): 2.2x so the zoomed image still gets >= 2x its on-screen width. */
-const SIZES_CARD_ZOOM = "(min-width: 1200px) 594px, (min-width: 1024px) calc(1.1 * (100vw - 120px) / 2), (min-width: 640px) calc(1.1 * (100vw - 88px)), calc(2.2 * (100vw - 40px))";
-const SIZES_BANNER = "(min-width: 1200px) 2256px, (min-width: 640px) calc(2 * (100vw - 72px)), calc(2 * (100vw - 40px))";
-const SIZES_HERO = "(min-width: 1024px) 484px, (min-width: 768px) 424px, 404px"; // 242 / 212 / 202px inside the 4px frame
-const SIZES_ABOUT = "304px"; // fixed 160px box, 152px inside the 4px frame
+const SIZES_CARD_ZOOM = "(min-width: 1700px) 801px, (min-width: 1360px) 669px, (min-width: 1024px) calc(1.1 * (100vw - 144px) / 2), (min-width: 640px) calc(1.1 * (100vw - 80px)), calc(2.2 * (100vw - 40px))";
+const SIZES_BANNER = "(min-width: 1700px) 3008px, (min-width: 1360px) 2528px, (min-width: 1024px) calc(2 * (100vw - 96px)), (min-width: 640px) calc(2 * (100vw - 64px)), calc(2 * (100vw - 40px))";
+const SIZES_HERO = "(min-width: 1280px) 744px, (min-width: 1024px) 624px, (min-width: 768px) 424px, 404px"; // 372 / 312 / 212 / 202px inside the 4px frame
+const SIZES_ABOUT = "(min-width: 1024px) 464px, 344px"; // 240px (lg) / 180px box, minus the 4px frame
 const SIZES_LOGO = "100px"; // fixed 52px box, 50px inside the 1px border
 
 export const IMAGE_SLOTS: ImageSlotDef[] = [

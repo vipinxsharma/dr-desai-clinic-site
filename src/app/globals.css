@@ -18,10 +18,64 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Page container: fluid; max 1360px, 1600px from 1700px wide screens (side padding 20 / 32 / 48px). */
+@utility container-page {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 20px;
+  @media (min-width: 640px) {
+    padding-inline: 32px;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 48px;
+  }
+  @media (min-width: 1700px) {
+    max-width: 1600px;
+  }
+}
+
+/* Fluid type scale (mobile-first, grows with the viewport). */
+@utility text-display {
+  font-size: clamp(28px, 1.1vw + 21px, 46px);
+  line-height: 1.15;
+}
+@utility text-title {
+  font-size: clamp(26px, 0.9vw + 20px, 38px);
+  line-height: 1.2;
+}
+@utility text-h2 {
+  font-size: clamp(24px, 0.7vw + 19px, 32px);
+  line-height: 1.2;
+}
+@utility text-lead {
+  font-size: clamp(16px, 0.25vw + 15px, 19px);
+  line-height: 1.75;
+}
+@utility text-copy {
+  font-size: clamp(15px, 0.15vw + 14px, 17px);
+  line-height: 1.65;
+}
+
+/* Consistent, visible keyboard focus. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-teal-800);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.on-dark :where(a, button):focus-visible {
+  outline-color: var(--color-mint);
+}
+
 body {
   background: #fff;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* While the mobile menu is open its panel covers the page, so hide the sticky call bar (it sits in a different stacking context). */
+body:has([data-menu-panel]:not([hidden])) [data-sticky-bar] {
+  display: none;
 }

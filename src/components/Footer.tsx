@@ -8,7 +8,7 @@ import { SocialLinks } from "./SocialLinks";
 export function Footer() {
   return (
     <footer className="on-dark bg-teal-950 text-teal-50">
-      <div className="mx-auto max-w-[1200px] px-5 pb-24 pt-9 sm:px-9 md:pb-10">
+      <div className="container-page pb-24 pt-9 md:pb-10">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
             <p className="mb-3 text-[18px] font-bold text-white">{SITE.clinicName}</p>
