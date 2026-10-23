@@ -50,3 +50,13 @@ describe("layout system", () => {
     }
   });
 });
+
+describe("menu overlay stays full-screen", () => {
+  const header = fs.readFileSync("src/components/Header.tsx", "utf8");
+  it("no ancestor of the fixed overlay creates a containing block (backdrop-filter, filter, transform, will-change, contain)", () => {
+    const tag = /<header\b[^>]*className="([^"]*)"/.exec(header)![1];
+    expect(tag).not.toMatch(/backdrop-|filter|transform|translate|scale|rotate|will-change|contain/);
+    // The frosted blur is allowed only on a sibling background layer.
+    expect(header).toMatch(/absolute inset-0 -z-10[^"]*backdrop-blur/);
+  });
+});
