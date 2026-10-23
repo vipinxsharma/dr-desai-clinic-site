@@ -48,8 +48,8 @@ describe("social links", () => {
   it("Contact page and Header use SocialLinks / mailto from config", () => {
     const contact = read("src/app/contact/page.tsx");
     expect(contact).toContain("<SocialLinks");
-    expect(contact).toContain("mailtoHref");
-    expect(read("src/components/Header.tsx")).toContain("mailtoHref");
+    expect(contact).toContain("<EmailLink");
+    expect(read("src/components/Header.tsx")).toContain("<EmailLink");
     expect(read("src/components/Header.tsx")).not.toMatch(/SocialLinks/); // header has no social icons
   });
 });

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { EMAIL, mailtoHref, NAV, PHONE, SITE, telHref } from "@/config/site";
+import { EMAIL, NAV, PHONE, SITE, telHref } from "@/config/site";
 import { Address } from "./Address";
 import { CopyEmailButton } from "./CopyEmailButton";
+import { EmailLink } from "./EmailLink";
 import { SocialLinks } from "./SocialLinks";
 
 export function Footer() {
@@ -16,7 +17,7 @@ export function Footer() {
               <a href={telHref} className="hover:underline">{PHONE.display}</a>
             </p>
             <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[16px]">
-              <a href={mailtoHref} className="hover:underline">{EMAIL}</a>
+              <EmailLink className="hover:underline">{EMAIL}</EmailLink>
               <CopyEmailButton tone="dark" size="sm" />
             </p>
             <SocialLinks className="mt-4" />

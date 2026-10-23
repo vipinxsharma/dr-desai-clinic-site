@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { EMAIL, getSlot, mailtoHref, MMC, PHONE, SITE, telHref } from "@/config/site";
+import { EMAIL, getSlot, MMC, PHONE, SITE, telHref } from "@/config/site";
 import { resolveImage } from "@/lib/images";
+import { EmailLink } from "./EmailLink";
 import { Nav } from "./Nav";
 import { CallButton } from "./Buttons";
 import { MailIcon, PhoneIcon } from "./Icons";
@@ -21,10 +22,10 @@ export function Header() {
               <PhoneIcon className="h-4 w-4" />
               {PHONE.display}
             </a>
-            <a href={mailtoHref} className="inline-flex items-center gap-1.5 hover:underline">
+            <EmailLink className="inline-flex items-center gap-1.5 hover:underline">
               <MailIcon className="h-4 w-4" />
               {EMAIL}
-            </a>
+            </EmailLink>
           </p>
         </div>
       </div>

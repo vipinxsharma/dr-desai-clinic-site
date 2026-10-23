@@ -27,9 +27,11 @@ describe("email", () => {
     expect(u.searchParams.get("subject")).toBe(EMAIL_SUBJECT);
   });
 
-  it("'mailto:' is built only in config; header, footer and Contact reuse mailtoHref", () => {
-    for (const f of walk("src")) if (!f.endsWith("config/site.ts")) expect(read(f), f).not.toMatch(/mailto:/);
-    for (const f of ["src/components/Header.tsx", "src/components/Footer.tsx", "src/app/contact/page.tsx"]) expect(read(f), f).toContain("mailtoHref");
+  it("'mailto:' and the Gmail URL are built only in config; header, footer and Contact use the shared EmailLink", () => {
+    for (const f of walk("src")) if (!f.endsWith("config/site.ts")) expect(read(f), f).not.toMatch(/mailto:|mail\.google\.com/);
+    for (const f of ["src/components/Header.tsx", "src/components/Footer.tsx", "src/app/contact/page.tsx"]) expect(read(f), f).toContain("<EmailLink");
+    expect(read("src/components/EmailLink.tsx")).toContain("mailtoHref");
+    expect(read("src/components/EmailLink.tsx")).toContain("gmailComposeLink");
   });
 
   it("no other email address exists anywhere in src or public", () => {

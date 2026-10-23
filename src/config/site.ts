@@ -45,6 +45,10 @@ export function mailtoLink(subject: string = EMAIL_SUBJECT) {
   return `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
 export const mailtoHref = mailtoLink();
+/** Gmail web compose link for desktop browsers. Address and subject come from the constants above. */
+export function gmailComposeLink(subject: string = EMAIL_SUBJECT) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=${encodeURIComponent(subject)}`;
+}
 
 export type Slot = { opens: string; closes: string };
 
@@ -60,7 +64,7 @@ export type Location = {
   /** Short place label for copy, e.g. "Powai". */
   place: string;
   address: {
-    /** Key landmark; only the main clinic has one rendered as the big bold line. */
+    /** Key landmark ("Opp. ..."); used in copy and schema. Address lines render at one uniform body size. */
     landmark?: string;
     /** Display lines, top to bottom. */
     lines: readonly string[];

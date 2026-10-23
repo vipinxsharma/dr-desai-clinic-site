@@ -3,8 +3,9 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LocationActions, Timings } from "@/components/LocationBits";
 import { SocialLinks } from "@/components/SocialLinks";
 import { CopyEmailButton } from "@/components/CopyEmailButton";
+import { EmailLink } from "@/components/EmailLink";
 import { MailIcon } from "@/components/Icons";
-import { BRANCHES, EMAIL, FEES, MAIN, MAP, mailtoHref, PHONE, telHref } from "@/config/site";
+import { BRANCHES, EMAIL, FEES, MAIN, MAP, PHONE, telHref } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -26,16 +27,16 @@ export default function ContactPage() {
           <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" data-location="main">
             <div className="rounded-[10px] border border-line bg-white p-5">
               <h2 className="mb-3 text-[18px] font-bold">{MAIN.name}</h2>
-              <Address size="lg" />
+              <Address />
               <h3 className="mt-5 text-[17px] font-bold">Timings</h3>
               <Timings loc={MAIN} />
               <p className="mt-2 text-[16px] leading-[1.7] text-body">Consultation fee: {FEES.first} first visit, {FEES.followUp} follow-up.</p>
               <p className="mt-4 text-[16px] text-body">Phone: <a href={telHref} className="font-bold text-teal-800 hover:underline">{PHONE.display}</a></p>
               <div className="mt-3 flex flex-wrap items-center gap-2" data-email-actions>
-                <a href={mailtoHref} aria-label={`Email us at ${EMAIL}`} className="inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-teal-800 bg-white px-4 text-[16px] font-bold text-teal-800 transition-colors hover:bg-teal-50">
+                <EmailLink ariaLabel={`Email us at ${EMAIL}`} className="inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-teal-800 bg-white px-4 text-[16px] font-bold text-teal-800 transition-colors hover:bg-teal-50">
                   <MailIcon className="h-4 w-4" />
                   Email us
-                </a>
+                </EmailLink>
                 <CopyEmailButton />
               </div>
               <SocialLinks tone="light" className="mt-3" />
