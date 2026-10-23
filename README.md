@@ -10,14 +10,13 @@ node scripts/screenshots.mjs http://localhost:3000 screenshots   # 1280px + 390p
 ```
 
 ## Where to edit
-All facts live in `src/config/site.ts` (phone, MMC number, `LOCATIONS` with addresses/timings, services, **social placeholders**) and `src/config/service-descriptions.ts` (short service copy; `needsDoctorReview` flags are internal, never shown).
+All facts live in `src/config/site.ts` (phone, MMC number, `LOCATIONS` with addresses/timings, services, `EMAIL`, `SOCIAL`) and `src/config/service-descriptions.ts` (short service copy; `needsDoctorReview` flags are internal, never shown).
 
-## Open placeholders (do not invent)
-Clinic email. It renders as dashed `[...]` via `<Ph>` and are kept out of JSON-LD and `llms.txt`.
+## Open placeholders
+None. Email and the two social links (Instagram, Facebook) are confirmed in `src/config/site.ts`.
 
 ## TODO before launch
 - `SITE.url`: confirm production domain (or set `NEXT_PUBLIC_SITE_URL`); canonical, sitemap, schema derive from it.
-- `SOCIAL`: swap placeholder Instagram / Facebook / YouTube links, set `confirmed: true` (only then added to schema `sameAs`).
 - Drop real photos into `<ImageSlot src=...>`; boxes are fixed-ratio so there is no layout shift.
 
 ## One phone number rule

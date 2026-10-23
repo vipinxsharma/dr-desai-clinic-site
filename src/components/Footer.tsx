@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { NAV, PHONE, SITE, SOCIAL, telHref } from "@/config/site";
+import { EMAIL, mailtoHref, NAV, PHONE, SITE, telHref } from "@/config/site";
 import { Address } from "./Address";
-import { FacebookIcon, InstagramIcon, YouTubeIcon } from "./Icons";
-
-const ICONS = { instagram: InstagramIcon, facebook: FacebookIcon, youtube: YouTubeIcon } as const;
+import { SocialLinks } from "./SocialLinks";
 
 export function Footer() {
   return (
@@ -16,19 +14,10 @@ export function Footer() {
             <p className="mt-3 text-[16px]">
               <a href={telHref} className="hover:underline">{PHONE.display}</a>
             </p>
-            {/* TODO(social): placeholder handles live in src/config/site.ts → SOCIAL. Swap before launch. */}
-            <ul className="mt-4 flex gap-3" aria-label="Social media">
-              {SOCIAL.map((s) => {
-                const Icon = ICONS[s.id];
-                return (
-                  <li key={s.id}>
-                    <a href={s.href} target="_blank" rel="noopener noreferrer nofollow" aria-label={`${SITE.clinicName} on ${s.label}`} className="flex h-10 w-10 items-center justify-center rounded-md border border-white/25 text-white hover:bg-white/10" data-social-placeholder={s.confirmed ? undefined : "true"}>
-                      <Icon />
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
+            <p className="mt-1 text-[16px]">
+              <a href={mailtoHref} className="hover:underline">{EMAIL}</a>
+            </p>
+            <SocialLinks className="mt-4" />
           </div>
           <div>
             <p className="mb-3 text-[18px] font-bold text-white">Quick Links</p>

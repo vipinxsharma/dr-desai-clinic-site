@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BRANCHES, LOCATIONS, MMC, PHONE, PLACEHOLDERS, SOCIAL } from "@/config/site";
+import { BRANCHES, EMAIL, LOCATIONS, MMC, PHONE, SOCIAL } from "@/config/site";
 import { breadcrumbSchema, clinicSchema, pageMetadata, physicianSchema } from "@/lib/seo";
 
 const all = JSON.stringify([clinicSchema(), physicianSchema(), breadcrumbSchema([{ name: "Home", path: "/" }])]);
@@ -51,14 +51,16 @@ describe("schema", () => {
     expect(JSON.stringify(clinicSchema())).not.toMatch(/Sunday/);
   });
 
-  it("omits social links until handles are confirmed", () => {
-    expect(SOCIAL.every((s) => !s.confirmed)).toBe(true);
-    expect(clinicSchema()).not.toHaveProperty("sameAs");
-    for (const s of SOCIAL) expect(all).not.toContain(s.href);
+  it("clinic sameAs lists exactly the two confirmed social URLs", () => {
+    expect(clinicSchema().sameAs).toEqual([
+      "https://www.instagram.com/fat.docdiaries",
+      "https://www.facebook.com/share/1F41VxgMqf/",
+    ]);
+    expect(clinicSchema().sameAs).toEqual(SOCIAL.map((s) => s.href));
   });
 
-  it("keeps unconfirmed placeholders out of schema", () => {
-    for (const p of Object.values(PLACEHOLDERS)) expect(all).not.toContain(p);
+  it("has no email field and no bracket placeholders in schema", () => {
+    expect(all).not.toContain(EMAIL);
     expect(all).not.toMatch(/email/i);
     expect(all).not.toMatch(/\[[A-Z ]+\]/);
   });

@@ -25,14 +25,3 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
-/* Dashed placeholder for facts the clinic has not confirmed yet. */
-.ph {
-  font-style: italic;
-  color: var(--color-muted);
-  border-bottom: 1px dashed currentColor;
-  white-space: nowrap;
-}
-.on-dark .ph {
-  color: #b9b3a3;
-}

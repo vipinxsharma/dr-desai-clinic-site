@@ -32,10 +32,9 @@ export const EXPERIENCE = { years: "6", text: "years in internal medicine and di
 
 export const FEES = { first: "₹500", followUp: "₹300" } as const;
 
-/** Unknown facts. UI shows a dashed placeholder; never put these in schema. */
-export const PLACEHOLDERS = {
-  email: "CLINIC EMAIL",
-} as const;
+/** Clinic email (confirmed). Shown as a mailto: link in header, footer and Contact. */
+export const EMAIL = "samruddh24@gmail.com";
+export const mailtoHref = `mailto:${EMAIL}`;
 
 export type Slot = { opens: string; closes: string };
 
@@ -169,15 +168,10 @@ export const MAP = {
   embedUrl: (loc: Location) => "https://www.google.com/maps?q=" + encodeURIComponent(loc.address.oneLine) + "&output=embed",
 };
 
-/**
- * SOCIAL LINKS — PLACEHOLDERS.
- * TODO(social): swap each href for the real handle once confirmed, then set
- * `confirmed: true`. Only confirmed links are allowed into JSON-LD `sameAs`.
- */
+/** SOCIAL LINKS: exactly these two (confirmed). Both go into JSON-LD sameAs. No other platform may be added. */
 export const SOCIAL = [
-  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/", confirmed: false },
-  { id: "facebook", label: "Facebook", href: "https://www.facebook.com/", confirmed: false },
-  { id: "youtube", label: "YouTube", href: "https://www.youtube.com/", confirmed: false },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/fat.docdiaries" },
+  { id: "facebook", label: "Facebook", href: "https://www.facebook.com/share/1F41VxgMqf/" },
 ] as const;
 
 export const NAV = [

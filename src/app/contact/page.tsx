@@ -1,8 +1,8 @@
 import { Address } from "@/components/Address";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LocationActions, Timings } from "@/components/LocationBits";
-import { Ph } from "@/components/Ph";
-import { BRANCHES, FEES, MAIN, MAP, PHONE, PLACEHOLDERS, telHref } from "@/config/site";
+import { SocialLinks } from "@/components/SocialLinks";
+import { BRANCHES, EMAIL, FEES, MAIN, MAP, mailtoHref, PHONE, telHref } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -29,7 +29,8 @@ export default function ContactPage() {
               <Timings loc={MAIN} />
               <p className="mt-2 text-[16px] leading-[1.7] text-body">Consultation fee: {FEES.first} first visit, {FEES.followUp} follow-up.</p>
               <p className="mt-4 text-[16px] text-body">Phone: <a href={telHref} className="font-bold text-teal-800 hover:underline">{PHONE.display}</a></p>
-              <p className="mt-1 text-[16px] text-body">Email: <Ph>{PLACEHOLDERS.email}</Ph></p>
+              <p className="mt-1 text-[16px] text-body">Email: <a href={mailtoHref} className="font-bold text-teal-800 hover:underline">{EMAIL}</a></p>
+              <SocialLinks tone="light" className="mt-3" />
               <LocationActions loc={MAIN} />
             </div>
             <div className="overflow-hidden rounded-[10px] border border-line bg-white">

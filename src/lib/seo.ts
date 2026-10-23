@@ -50,7 +50,6 @@ function hoursSpec(loc: Location) {
 }
 
 export function clinicSchema() {
-  const confirmedSocial = SOCIAL.filter((s) => s.confirmed).map((s) => s.href);
   return {
     "@context": "https://schema.org",
     "@type": ["MedicalClinic", "LocalBusiness"],
@@ -63,8 +62,7 @@ export function clinicSchema() {
     areaServed: ["Kanjurmarg", "Kanjurmarg East", "Mumbai"],
     openingHoursSpecification: hoursSpec(MAIN),
     employee: { "@id": doctorId },
-    // sameAs only once real handles are confirmed in src/config/site.ts
-    ...(confirmedSocial.length ? { sameAs: confirmedSocial } : {}),
+    sameAs: SOCIAL.map((s) => s.href),
   };
 }
 

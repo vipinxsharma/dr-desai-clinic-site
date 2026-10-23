@@ -46,9 +46,6 @@ export const InstagramIcon = ({ className }: P) => (
 export const FacebookIcon = ({ className }: P) => (
   <svg {...base} className={className}><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8.500A.5.5 0 0 1 14 8Z" /></svg>
 );
-export const YouTubeIcon = ({ className }: P) => (
-  <svg {...base} className={className}><rect x="3" y="6" width="18" height="12" rx="3.5" /><path d="m10 9.500 5 2.500-5 2.500v-5Z" /></svg>
-);
 export const MedicalCrossIcon = ({ className }: P) => (
   <svg {...base} width={16} height={16} className={className}><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3Z" /></svg>
 );
