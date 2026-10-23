@@ -19,6 +19,14 @@ describe("schema", () => {
     expect(c.openingHoursSpecification[0].dayOfWeek).toEqual(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
   });
 
+  it("clinic schema has hasMap (Kanjurmarg mapsUrl) and GeoCoordinates, nothing else new", () => {
+    const c = clinicSchema();
+    expect(c.hasMap).toBe("https://maps.app.goo.gl/v1pZJ3r3GSakVRnK7");
+    expect(c.geo).toEqual({ "@type": "GeoCoordinates", latitude: 19.1326889, longitude: 72.9363187 });
+    expect(physicianSchema()).not.toHaveProperty("hasMap");
+    expect(physicianSchema()).not.toHaveProperty("geo");
+  });
+
   it("Physician carries MMC identifier and Powai + Nahar work locations", () => {
     const p = physicianSchema();
     expect(p.identifier).toEqual({

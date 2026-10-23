@@ -5,7 +5,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import ContactPage from "@/app/contact/page";
 import { CopyEmailButton } from "@/components/CopyEmailButton";
-import { EMAIL, EMAIL_SUBJECT, mailtoHref, mailtoLink, LOCATIONS, PHONE } from "@/config/site";
+import { ALL_LOCATIONS, EMAIL, EMAIL_SUBJECT, mailtoHref, mailtoLink, LOCATIONS, PHONE } from "@/config/site";
 
 const walk = (dir: string): string[] =>
   fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));
@@ -86,5 +86,27 @@ describe("booking actions only on the Kanjurmarg clinic card", () => {
       expect(m.index!).toBeGreaterThanOrEqual(mainStart);
       expect(m.index!).toBeLessThan(mainEnd);
     }
+  });
+});
+
+describe("Google Maps wiring on Contact", () => {
+  const decode = (v: string) => v.replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/&quot;/g, '"');
+
+  it("renders 3 lazy iframes with the real embed src, a title and referrerPolicy", () => {
+    const tags = [...html.matchAll(/<iframe\b[^>]*>/g)].map((m) => m[0]);
+    expect(tags).toHaveLength(3);
+    expect(tags.map((t) => decode(/ src="([^"]*)"/.exec(t)![1]))).toEqual(ALL_LOCATIONS.map((l) => l.mapsEmbedSrc));
+    for (const t of tags) {
+      expect(t).toMatch(/ title="[^"]+"/);
+      expect(t).toContain('loading="lazy"');
+      expect(t).toContain('referrerPolicy="no-referrer-when-downgrade"');
+    }
+  });
+
+  it("renders 3 Get Directions links using the real mapsUrl", () => {
+    const anchors = [...html.matchAll(/<a\b[^>]*data-cta="directions"[^>]*>/g)].map((m) => m[0]);
+    expect(anchors).toHaveLength(3);
+    expect(anchors.map((a) => decode(/ href="([^"]*)"/.exec(a)![1]))).toEqual(ALL_LOCATIONS.map((l) => l.mapsUrl));
+    for (const a of anchors) expect(a).toContain('rel="noopener noreferrer"');
   });
 });
