@@ -30,15 +30,17 @@ for (const [w, h] of Object.entries(sizes)) {
 
 // Mobile menu behaviour (hamburger overlay): open, aria state, Esc closes, focus returns, desktop has no hamburger.
 {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce", isMobile: true, hasTouch: true, deviceScaleFactor: 2 }); // phone emulation, taps
   const page = await ctx.newPage();
   await page.goto(base + "/", { waitUntil: "load" });
   const btn = page.locator("[data-menu-button]");
   const check = (name, ok) => { console.log(`menu: ${name} ${ok ? "OK" : "FAIL"}`); if (!ok) bad++; };
   check("closed by default", (await btn.getAttribute("aria-expanded")) === "false" && !(await page.locator("[data-menu-panel]").isVisible()));
-  await btn.click();
+  await btn.tap();
   await page.waitForTimeout(150);
   check("opens + aria-expanded", (await btn.getAttribute("aria-expanded")) === "true" && (await page.locator("[data-menu-panel]").isVisible()));
+  const box = await page.locator("[data-menu-panel]").boundingBox();
+  check(`overlay covers the whole viewport (${Math.round(box?.width ?? 0)}x${Math.round(box?.height ?? 0)})`, !!box && box.x === 0 && box.y === 0 && box.width >= 390 && box.height >= 844);
   check("focus moves to Close", await page.evaluate(() => document.activeElement?.hasAttribute("data-menu-close")));
   check("body scroll locked", (await page.evaluate(() => document.body.style.overflow)) === "hidden");
   await page.screenshot({ path: `${out}/menu-390.png` });

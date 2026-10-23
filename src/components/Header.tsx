@@ -33,7 +33,10 @@ export function Header() {
       </div>
 
       {/* Main bar: sticky on mobile so the menu button is always reachable. */}
-      <header className="sticky top-0 z-40 border-b border-line bg-white/90 backdrop-blur-md md:static md:bg-white">
+      <header className="sticky top-0 z-40 border-b border-line md:static">
+        {/* Frosted background lives on its own layer: backdrop-filter on <header> itself would make it the containing block
+            for the fixed full-screen mobile menu and shrink the overlay to the header height. */}
+        <div className="absolute inset-0 -z-10 bg-white/90 backdrop-blur-md md:bg-white md:backdrop-blur-none" aria-hidden="true" />
         <div className="container-page flex items-center gap-3 py-2.5 md:py-3">
           <Link href="/" className="flex min-w-0 flex-1 items-center gap-3 rounded-md md:flex-none" aria-label={`${SITE.clinicName} – home`}>
             {/* Logo slot: fixed 52px square. Uses public/images/brand/logo.png when present, else the "D" placeholder. */}
