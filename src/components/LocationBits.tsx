@@ -1,5 +1,5 @@
 import type { Location } from "@/config/site";
-import { directionsHref, telHref, waLocationHref } from "@/config/site";
+import { directionsLink, telHref, waLocationHref } from "@/config/site";
 import { PhoneIcon, PinIcon, WhatsAppIcon } from "./Icons";
 
 /** Mon-Sat line, plus a Sunday line only when config has an appointment note. */
@@ -29,7 +29,7 @@ export function LocationActions({ loc }: { loc: Location }) {
           Book on WhatsApp
         </a>
       )}
-      <a href={directionsHref(loc)} target="_blank" rel="noopener noreferrer" className={`${btn} ${loc.bookable ? "" : "col-span-2"} border border-teal-800 bg-white text-teal-800 hover:bg-teal-50`} data-cta="directions">
+      <a href={directionsLink(loc)} target="_blank" rel="noopener noreferrer" className={`${btn} ${loc.bookable ? "" : "col-span-2"} border border-teal-800 bg-white text-teal-800 hover:bg-teal-50`} data-cta="directions">
         <PinIcon className="h-[18px] w-[18px]" />
         Get Directions
       </a>

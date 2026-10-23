@@ -60,7 +60,7 @@ export function clinicSchema() {
     medicalSpecialty: ["https://schema.org/Endocrine", "https://schema.org/PrimaryCare"],
     address: postalAddress(MAIN),
     ...(MAIN.mapsUrl ? { hasMap: MAIN.mapsUrl } : {}),
-    ...(MAIN.geo ? { geo: { "@type": "GeoCoordinates", latitude: MAIN.geo.latitude, longitude: MAIN.geo.longitude } } : {}),
+    geo: { "@type": "GeoCoordinates", latitude: MAIN.lat, longitude: MAIN.lng },
     areaServed: ["Kanjurmarg", "Kanjurmarg East", "Mumbai"],
     openingHoursSpecification: hoursSpec(MAIN),
     employee: { "@id": doctorId },

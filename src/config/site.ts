@@ -57,12 +57,13 @@ export type Location = {
   name: string;
   /** Call + WhatsApp booking actions allowed on this location's card? Kanjurmarg clinic only (see PHONE note). */
   bookable: boolean;
-  /** Optional Google Maps share link for Get Directions. Falls back to an address search URL when unset. */
+  /** Google Maps short link (kept for schema `hasMap` and an optional "Open in Maps" label on the map). Not used for Get Directions. */
   mapsUrl?: string;
   /** Optional Google Maps embed src for the iframe. Falls back to an address query embed when unset. */
   mapsEmbedSrc?: string;
-  /** Optional coordinates, exported as GeoCoordinates in the clinic JSON-LD. */
-  geo?: { latitude: number; longitude: number };
+  /** Coordinates: Get Directions destination; the main clinic's also feed GeoCoordinates in the clinic JSON-LD. */
+  lat: number;
+  lng: number;
   /** Short place label for copy, e.g. "Powai". */
   place: string;
   address: {
@@ -101,7 +102,8 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
     bookable: true,
     mapsUrl: "https://maps.app.goo.gl/v1pZJ3r3GSakVRnK7",
     mapsEmbedSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.428904363579!2d72.93374377381808!3d19.13269395019299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c7fdf2cfe2bf%3A0x6d477fa8c6725d3c!2sDr.%20Desai's%20Health%20Clinic%20and%20Diabetes%20Center!5e0!3m2!1sen!2sin!4v1792748673177!5m2!1sen!2sin",
-    geo: { latitude: 19.1326889, longitude: 72.9363187 },
+    lat: 19.1326889,
+    lng: 72.9363187,
     name: "Dr. Desai's Health Clinic and Diabetes Center",
     place: "Kanjurmarg",
     address: {
@@ -129,6 +131,8 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
   nahar: {
     slug: "nahar",
     bookable: false,
+    lat: 19.1114738,
+    lng: 72.8977022,
     mapsUrl: "https://maps.app.goo.gl/tCnRBKqAxvN4c4pH6",
     mapsEmbedSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.9128490909325!2d72.89512727381752!3d19.111478850860532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c80a96876f1f%3A0x6899a75b7646d7e1!2sNahar%20Medical%20Center!5e0!3m2!1sen!2sin!4v1792748648078!5m2!1sen!2sin",
     name: "Nahar Medical Center",
@@ -159,6 +163,8 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
   powai: {
     slug: "powai",
     bookable: false,
+    lat: 19.1240698,
+    lng: 72.9164363,
     mapsUrl: "https://maps.app.goo.gl/88TF7GQTvbtuoRbe8",
     mapsEmbedSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.6255798640163!2d72.91386137381785!3d19.124074850464233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c7f1f72dbeb3%3A0xf75e10c36cecb636!2sPowai%20Polyclinic%20%26%20Hospital!5e0!3m2!1sen!2sin!4v1792748621438!5m2!1sen!2sin",
     name: "Powai Polyclinic & Hospital",
@@ -190,9 +196,9 @@ export const MAIN = LOCATIONS.main;
 export const BRANCHES: Location[] = [LOCATIONS.nahar, LOCATIONS.powai];
 export const ALL_LOCATIONS: Location[] = [LOCATIONS.main, ...BRANCHES];
 
-/** Google Maps search URL from an address. No API key needed. */
-export function directionsHref(loc: Location) {
-  return loc.mapsUrl ?? "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(loc.address.oneLine);
+/** Get Directions: coordinate-based Google Maps directions link (one helper, no API key). */
+export function directionsLink(loc: Location) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
 }
 
 export const MAP = {
