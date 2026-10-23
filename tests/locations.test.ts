@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ALL_LOCATIONS, directionsHref, LOCATIONS, MMC, waLocationHref } from "@/config/site";
+import { ALL_LOCATIONS, directionsHref, LOCATIONS, MAP, MMC, waLocationHref } from "@/config/site";
 
 describe("locations (single source of truth)", () => {
   it("has the three confirmed locations", () => {
@@ -39,6 +39,26 @@ describe("locations (single source of truth)", () => {
       expect(href).toContain(encodeURIComponent(`Hi, I would like to book an appointment at ${l.name}.`));
       expect(new URL(href).searchParams.get("text")).toBe(`Hi, I would like to book an appointment at ${l.name}.`);
     }
+  });
+
+  it("every location yields a Get Directions href and an iframe src, never empty", () => {
+    for (const l of ALL_LOCATIONS) {
+      for (const u of [directionsHref(l), MAP.embedUrl(l)]) {
+        expect(u.length).toBeGreaterThan(20);
+        expect(new URL(u).protocol).toBe("https:");
+      }
+    }
+  });
+
+  it("optional mapsUrl / mapsEmbedSrc override the address-based fallback", () => {
+    const withLinks = { ...LOCATIONS.powai, mapsUrl: "https://maps.app.goo.gl/example", mapsEmbedSrc: "https://www.google.com/maps/embed?pb=example" };
+    expect(directionsHref(withLinks)).toBe("https://maps.app.goo.gl/example");
+    expect(MAP.embedUrl(withLinks)).toBe("https://www.google.com/maps/embed?pb=example");
+    expect(directionsHref(LOCATIONS.powai)).toContain("google.com/maps/search");
+  });
+
+  it("only the Kanjurmarg clinic is bookable", () => {
+    expect(ALL_LOCATIONS.filter((l) => l.bookable).map((l) => l.slug)).toEqual(["main"]);
   });
 
   it("MMC number is defined once", () => {

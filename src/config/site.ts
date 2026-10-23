@@ -20,7 +20,12 @@ export const MMC = {
   number: "2016040659",
 } as const;
 
-/** The ONE phone number. Enforced by scripts/check-phone.mjs + tests/phone.test.ts. */
+/**
+ * The ONE phone number. Enforced by scripts/check-phone.mjs + tests/phone.test.ts.
+ * NOTE: +91 88305 31546 belongs to the Kanjurmarg clinic ONLY. The doctor has a no-promotion clause with
+ * Nahar, so call / WhatsApp booking actions must never appear on the Nahar or Powai location cards
+ * (see `bookable` on LOCATIONS). Header, footer and hero keep their general Call / WhatsApp buttons.
+ */
 export const PHONE = {
   display: "+91 88305 31546",
   tel: "+918830531546",
@@ -34,13 +39,24 @@ export const FEES = { first: "₹500", followUp: "₹300" } as const;
 
 /** Clinic email (confirmed). Shown as a mailto: link in header, footer and Contact. */
 export const EMAIL = "samruddh24@gmail.com";
-export const mailtoHref = `mailto:${EMAIL}`;
+export const EMAIL_SUBJECT = "Appointment enquiry";
+/** Single place that builds the mailto: link (header, footer, Contact). No contact form by design. */
+export function mailtoLink(subject: string = EMAIL_SUBJECT) {
+  return `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}`;
+}
+export const mailtoHref = mailtoLink();
 
 export type Slot = { opens: string; closes: string };
 
 export type Location = {
   slug: "main" | "nahar" | "powai";
   name: string;
+  /** Call + WhatsApp booking actions allowed on this location's card? Kanjurmarg clinic only (see PHONE note). */
+  bookable: boolean;
+  /** Optional Google Maps share link for Get Directions. Falls back to an address search URL when unset. */
+  mapsUrl?: string;
+  /** Optional Google Maps embed src for the iframe. Falls back to an address query embed when unset. */
+  mapsEmbedSrc?: string;
   /** Short place label for copy, e.g. "Powai". */
   place: string;
   address: {
@@ -76,6 +92,7 @@ export type Location = {
 export const LOCATIONS: Record<Location["slug"], Location> = {
   main: {
     slug: "main",
+    bookable: true,
     name: "Dr. Desai's Health Clinic and Diabetes Center",
     place: "Kanjurmarg",
     address: {
@@ -102,6 +119,7 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
   },
   nahar: {
     slug: "nahar",
+    bookable: false,
     name: "Nahar Medical Center",
     place: "Chandivali",
     address: {
@@ -129,6 +147,7 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
   },
   powai: {
     slug: "powai",
+    bookable: false,
     name: "Powai Polyclinic & Hospital",
     place: "Powai",
     address: {
@@ -160,12 +179,12 @@ export const ALL_LOCATIONS: Location[] = [LOCATIONS.main, ...BRANCHES];
 
 /** Google Maps search URL from an address. No API key needed. */
 export function directionsHref(loc: Location) {
-  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(loc.address.oneLine);
+  return loc.mapsUrl ?? "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(loc.address.oneLine);
 }
 
 export const MAP = {
   title: "Map showing Dr. Desai's Health Clinic and Diabetes Center, opposite Runwal Bliss, Kanjurmarg East, Mumbai",
-  embedUrl: (loc: Location) => "https://www.google.com/maps?q=" + encodeURIComponent(loc.address.oneLine) + "&output=embed",
+  embedUrl: (loc: Location) => loc.mapsEmbedSrc ?? "https://www.google.com/maps?q=" + encodeURIComponent(loc.address.oneLine) + "&output=embed",
 };
 
 /** SOCIAL LINKS: exactly these two (confirmed). Both go into JSON-LD sameAs. No other platform may be added. */

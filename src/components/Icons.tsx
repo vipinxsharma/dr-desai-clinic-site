@@ -49,3 +49,9 @@ export const FacebookIcon = ({ className }: P) => (
 export const MedicalCrossIcon = ({ className }: P) => (
   <svg {...base} width={16} height={16} className={className}><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3Z" /></svg>
 );
+export const CopyIcon = ({ className }: P) => (
+  <svg {...base} className={className}><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h9" /></svg>
+);
+export const CheckIcon = ({ className }: P) => (
+  <svg {...base} className={className}><path d="m5 12.5 4.5 4.5L19 7.500" /></svg>
+);

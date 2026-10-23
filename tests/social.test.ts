@@ -57,7 +57,7 @@ describe("social links", () => {
 describe("email", () => {
   it("matches the confirmed address and is a mailto link", () => {
     expect(EMAIL).toBe("samruddh24@gmail.com");
-    expect(mailtoHref).toBe("mailto:samruddh24@gmail.com");
+    expect(mailtoHref).toBe("mailto:samruddh24@gmail.com?subject=Appointment%20enquiry");
   });
 
   it("no email placeholder or Ph component remains", () => {

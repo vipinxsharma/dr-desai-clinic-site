@@ -2,6 +2,8 @@ import { Address } from "@/components/Address";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LocationActions, Timings } from "@/components/LocationBits";
 import { SocialLinks } from "@/components/SocialLinks";
+import { CopyEmailButton } from "@/components/CopyEmailButton";
+import { MailIcon } from "@/components/Icons";
 import { BRANCHES, EMAIL, FEES, MAIN, MAP, mailtoHref, PHONE, telHref } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -29,7 +31,13 @@ export default function ContactPage() {
               <Timings loc={MAIN} />
               <p className="mt-2 text-[16px] leading-[1.7] text-body">Consultation fee: {FEES.first} first visit, {FEES.followUp} follow-up.</p>
               <p className="mt-4 text-[16px] text-body">Phone: <a href={telHref} className="font-bold text-teal-800 hover:underline">{PHONE.display}</a></p>
-              <p className="mt-1 text-[16px] text-body">Email: <a href={mailtoHref} className="font-bold text-teal-800 hover:underline">{EMAIL}</a></p>
+              <div className="mt-3 flex flex-wrap items-center gap-2" data-email-actions>
+                <a href={mailtoHref} aria-label={`Email us at ${EMAIL}`} className="inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-teal-800 bg-white px-4 text-[16px] font-bold text-teal-800 transition-colors hover:bg-teal-50">
+                  <MailIcon className="h-4 w-4" />
+                  Email us
+                </a>
+                <CopyEmailButton />
+              </div>
               <SocialLinks tone="light" className="mt-3" />
               <LocationActions loc={MAIN} />
             </div>
