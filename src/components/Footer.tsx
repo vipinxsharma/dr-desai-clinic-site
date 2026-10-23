@@ -26,7 +26,7 @@ export function Footer() {
             <p className="mb-3 text-[18px] font-bold text-white">Quick Links</p>
             <ul className="space-y-1.5 text-[16px]">
               {NAV.map((n) => (
-                <li key={n.href}><Link href={n.href} className="hover:underline">{n.label}</Link></li>
+                <li key={n.href}><Link href={n.href} className="inline-block transition-transform hover:translate-x-1 hover:underline">{n.label}</Link></li>
               ))}
             </ul>
           </div>

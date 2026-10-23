@@ -44,8 +44,8 @@ export function CopyEmailButton({ tone = "light", size = "md" }: { tone?: "light
   const dims = size === "sm" ? "min-h-[44px] px-3 text-[14px]" : "min-h-[44px] px-4 text-[16px]";
   return (
     <>
-      <button type="button" onClick={onClick} className={`inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border font-bold transition-colors ${look} ${dims}`} data-copy-email>
-        {copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
+      <button type="button" onClick={onClick} className={`fx-btn inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border font-bold ${look} ${dims}`} data-copy-email>
+        {copied ? <CheckIcon className="fx-check h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
         {copied ? "Copied" : "Copy email"}
       </button>
       <span className="sr-only" role="status" aria-live="polite" data-copy-status>{copied ? "Email address copied" : ""}</span>

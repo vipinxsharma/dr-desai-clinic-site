@@ -24,6 +24,9 @@ describe("single phone number rule", () => {
   it("does not flag pincode, SVG path data or years", () => {
     expect(findPhoneNumbers("Mumbai – 400042, © 2026")).toEqual([]);
     expect(findPhoneNumbers('<path d="M10 20 30 40 50 60 70 80 90 100" />')).toEqual([]);
+    // Icon geometry inside the escaped RSC payload (lucide polygon points).
+    expect(findPhoneNumbers('{\\"polygon\\",{\\"points\\":\\"3 11 22 2 13 21 11 13 3 11\\",\\"key\\":\\"x\\"}')).toEqual([]);
+    expect(findPhoneNumbers('<polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>')).toEqual([]);
   });
 
   it("allows only the MMC registration number as a non-phone 10-digit value", () => {

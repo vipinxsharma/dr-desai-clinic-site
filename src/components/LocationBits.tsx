@@ -1,6 +1,6 @@
 import type { Location } from "@/config/site";
 import { directionsLink, telHref, waLocationHref } from "@/config/site";
-import { PhoneIcon, PinIcon, WhatsAppIcon } from "./Icons";
+import { DirectionsIcon, PhoneIcon, WhatsAppIcon } from "./Icons";
 
 /** Mon-Sat line, plus a Sunday line only when config has an appointment note. */
 export function Timings({ loc }: { loc: Location }) {
@@ -14,7 +14,7 @@ export function Timings({ loc }: { loc: Location }) {
   );
 }
 
-const btn = "inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-2 py-2.5 text-[15px] sm:gap-2 sm:px-4 sm:text-[16px] font-bold transition-colors";
+const btn = "fx-btn inline-flex min-h-[44px] items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-2 py-2.5 text-[15px] sm:gap-2 sm:px-4 sm:text-[16px] font-bold transition-colors";
 
 /**
  * Get Directions always. Call + Book on WhatsApp ONLY when `loc.bookable` (Kanjurmarg clinic).
@@ -30,7 +30,7 @@ export function LocationActions({ loc }: { loc: Location }) {
         </a>
       )}
       <a href={directionsLink(loc)} target="_blank" rel="noopener noreferrer" className={`${btn} ${loc.bookable ? "" : "col-span-2"} border border-teal-800 bg-white text-teal-800 hover:bg-teal-50`} data-cta="directions">
-        <PinIcon className="h-[18px] w-[18px]" />
+        <DirectionsIcon className="h-[18px] w-[18px]" />
         Get Directions
       </a>
       {loc.bookable && (

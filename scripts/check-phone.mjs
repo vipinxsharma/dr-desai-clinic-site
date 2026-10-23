@@ -21,6 +21,8 @@ export function stripNoise(text) {
   // SVG path data and numeric attributes are long digit runs, not phone numbers.
   return text
     .replace(/\b(d|points|viewBox|transform)=("[^"]*"|'[^']*'|\{`[^`]*`\})/g, "")
+    // Same attributes inside the escaped RSC/JSON payload: \"points\":\"3 11 22 ...\"
+    .replace(/\\*"(?:d|points|viewBox|transform)\\*"\s*:\s*\\*"[^"\\]*\\*"/g, "")
     .replace(/https?:\/\/\S+/g, (u) => (u.includes("wa.me/") ? u : ""));
 }
 

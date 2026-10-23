@@ -11,7 +11,7 @@ export function Nav() {
       {NAV.map((item) => {
         const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
         return (
-          <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`inline-flex min-h-[44px] items-center ${active ? "text-teal-800" : "text-ink hover:text-teal-800"}`}>
+          <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`fx-underline inline-flex min-h-[44px] items-center ${active ? "text-teal-800" : "text-ink hover:text-teal-800"}`}>
             {item.label}
           </Link>
         );

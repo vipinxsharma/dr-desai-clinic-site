@@ -12,7 +12,7 @@ export function SocialLinks({ tone = "dark", className = "" }: { tone?: "dark" |
         const Icon = ICONS[s.id];
         return (
           <li key={s.id}>
-            <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className={`flex h-10 w-10 items-center justify-center rounded-md border ${look}`}>
+            <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className={`fx-lift flex h-10 w-10 items-center justify-center rounded-md border ${look}`}>
               <Icon />
             </a>
           </li>

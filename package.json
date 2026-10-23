@@ -14,9 +14,11 @@
     "images:table": "node --experimental-strip-types --no-warnings scripts/image-slots.mts"
   },
   "dependencies": {
+    "lucide-react": "^1.61.0",
     "next": "^16.4.2",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",

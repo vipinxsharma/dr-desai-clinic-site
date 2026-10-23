@@ -25,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-IN">
       <body>
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-[60] focus:bg-white focus:p-3">Skip to content</a>
+        <div className="fx-progress" aria-hidden="true" />
         <Header />
         <main id="main">{children}</main>
         <Footer />

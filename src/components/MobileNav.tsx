@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MMC, NAV, SITE, WA_GENERAL } from "@/config/site";
 import { CallButton, WhatsAppButton } from "./Buttons";
+import { CloseIcon, MenuIcon } from "./Icons";
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -73,9 +74,7 @@ export function MobileNav({ logoSrc, logoAlt }: { logoSrc?: string; logoAlt: str
         className="flex h-11 w-11 items-center justify-center rounded-md border border-line bg-white text-teal-800"
         data-menu-button
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-          <path d="M4 7h16M4 12h16M4 17h16" />
-        </svg>
+        <MenuIcon className="h-[22px] w-[22px]" />
       </button>
 
       <div
@@ -103,9 +102,7 @@ export function MobileNav({ logoSrc, logoAlt }: { logoSrc?: string; logoAlt: str
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/30 text-white"
             data-menu-close
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
+            <CloseIcon className="h-[22px] w-[22px]" />
           </button>
         </div>
 

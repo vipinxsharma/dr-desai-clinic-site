@@ -33,7 +33,7 @@ export default function AboutPage() {
 
       <section className="bg-cream py-10">
         <div className="container-page">
-          <div className="grid gap-6 md:grid-cols-[180px_1fr] md:gap-10 lg:grid-cols-[240px_1fr]">
+          <div className="fx-reveal grid gap-6 md:grid-cols-[180px_1fr] md:gap-10 lg:grid-cols-[240px_1fr]">
             <div className="mx-auto w-[180px] lg:w-[240px]">
               <ImageSlot slot="about-doctor" rounded="rounded-[10px]" className="border-[4px] border-teal-800" priority />
             </div>
@@ -53,9 +53,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="fx-grid mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {cards.map(({ Icon, k, v }) => (
-              <li key={k} className="rounded-[10px] border border-line bg-white p-4">
+              <li key={k} className="fx-card rounded-[10px] border border-line bg-white p-4">
                 <span className="flex h-7 w-7 items-center justify-center rounded-md bg-teal-800 text-white"><Icon className="h-4 w-4" /></span>
                 <h3 className="mt-2 text-[17px] font-bold leading-snug">{k}</h3>
                 <p className="mt-1 text-copy text-body">{v}</p>
@@ -63,13 +63,13 @@ export default function AboutPage() {
             ))}
           </ul>
 
-          <div className="mt-6 rounded-[10px] border border-line bg-note p-5">
+          <div className="fx-reveal mt-6 rounded-[10px] border border-line bg-note p-5">
             <h2 className="text-[20px] font-bold">Our approach</h2>
             <p className="mt-2 text-copy text-body">
               Every visit starts with a careful history and relevant tests, not a rushed prescription. Diagnosis and treatment choices are explained in plain language, and chronic conditions like diabetes are managed with a plan that fits daily routine, diet and work, reviewed and adjusted at each follow-up.
             </p>
           </div>
-          <div className="mt-6 flex justify-center"><CallButton /></div>
+          <div className="fx-reveal mt-6 flex justify-center"><CallButton /></div>
         </div>
       </section>
     </>

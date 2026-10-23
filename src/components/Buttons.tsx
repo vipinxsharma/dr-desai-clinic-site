@@ -8,7 +8,7 @@ const styles: Record<V, string> = {
   white: "bg-white text-ink border border-white hover:bg-teal-50",
   "outline-light": "bg-transparent text-white border border-white hover:bg-white/10",
 };
-const base = "inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-[16px] font-bold transition-colors";
+const base = "fx-btn inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-[16px] font-bold transition-colors";
 
 export function CallButton({ variant = "solid", label = "Call Clinic", className = "" }: { variant?: V; label?: string; className?: string }) {
   return (
