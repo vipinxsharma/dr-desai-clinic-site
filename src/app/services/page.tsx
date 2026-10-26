@@ -1,3 +1,4 @@
+import { ClosingCta } from "@/components/ClosingCta";
 import { ImageSlot } from "@/components/ImageSlot";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -28,6 +29,7 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+      <ClosingCta id="services-cta-heading" title="Ready to book or have a question?" showContactLink />
     </>
   );
 }
