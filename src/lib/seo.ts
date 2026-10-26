@@ -41,12 +41,18 @@ function postalAddress(loc: Location) {
 }
 
 function hoursSpec(loc: Location) {
-  return loc.weekly.slots.map((t) => ({
+  const { slots, effective, previous } = loc.weekly;
+  const spec = (t: { opens: string; closes: string }, range: { validFrom?: string; validThrough?: string }) => ({
     "@type": "OpeningHoursSpecification",
     dayOfWeek: DAYS,
     opens: t.opens,
     closes: t.closes,
-  }));
+    ...range,
+  });
+  return [
+    ...(previous ? previous.slots.map((t) => spec(t, { validThrough: previous.validThrough })) : []),
+    ...slots.map((t) => spec(t, effective && previous ? { validFrom: effective.validFrom } : {})),
+  ];
 }
 
 export function clinicSchema() {
