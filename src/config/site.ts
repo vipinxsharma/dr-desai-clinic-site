@@ -4,6 +4,8 @@
  * placeholder in the UI and is NEVER emitted into JSON-LD / llms.txt.
  */
 
+import { RESOURCES, resourcesVisible, type Resources } from "./resources";
+
 export const SITE = {
   // TODO(domain): confirm production domain; canonical, sitemap and schema derive from this.
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.drdesaiclinic.in").replace(/\/$/, ""),
@@ -182,8 +184,9 @@ export const LOCATIONS: Record<Location["slug"], Location> = {
     weekly: {
       days: "Monday to Saturday",
       daysShort: "Mon to Sat",
-      text: "4:00 pm to 5:30 pm",
-      slots: [{ opens: "16:00", closes: "17:30" }],
+      // Effective 2026-11-01, per doctor. Shown as the current timing; the page carries no "from" wording.
+      text: "3:00 pm to 4:00 pm",
+      slots: [{ opens: "15:00", closes: "16:00" }],
     },
     sunday: { status: "none" },
     fee: "₹500",
@@ -212,12 +215,19 @@ export const SOCIAL = [
   { id: "facebook", label: "Facebook", href: "https://www.facebook.com/share/1F41VxgMqf/" },
 ] as const;
 
-export const NAV = [
+const BASE_NAV = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/contact", label: "Contact & Visit Us" },
-] as const;
+];
+
+/** Header, footer, mobile menu and sitemap all read this. "Resources" follows "Contact & Visit Us" only when it has content (or showWhenEmpty). */
+export function buildNav(resources: Resources): { href: string; label: string }[] {
+  return resourcesVisible(resources) ? [...BASE_NAV, { href: "/resources", label: "Resources" }] : [...BASE_NAV];
+}
+
+export const NAV = buildNav(RESOURCES);
 
 export const telHref = `tel:${PHONE.tel}`;
 

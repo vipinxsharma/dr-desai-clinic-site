@@ -21,3 +21,10 @@ None. Email and the two social links (Instagram, Facebook) are confirmed in `src
 
 ## One phone number rule
 Only `+91 88305 31546` is allowed. `scripts/check-phone.mjs` runs in `prebuild`, in tests, and in CI against built HTML.
+
+## Resources
+`src/config/resources.ts` holds `RESOURCES` with four lists (`videos`, `articles`, `gallery`, `documents`), all empty by default.
+- Add an item: push an object into the matching list, e.g. `videos: [{ title: "Managing diabetes at work", url: "https://...", description: "optional" }]`. Gallery items are `{ src, alt, caption? }`.
+- With at least one item, the "Resources" menu item (header, footer, mobile menu), the `/resources` page and the sitemap entry appear automatically, and only non-empty sections render.
+- All lists empty and `showWhenEmpty: false` (default): no menu item, `/resources` returns 404, not in the sitemap.
+- Set `showWhenEmpty: true` to show the menu item and a "coming soon" page with Call / WhatsApp buttons while the lists are still empty.

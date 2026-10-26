@@ -53,9 +53,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <ul className="fx-grid mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="fx-grid mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5" data-about-cards>
             {cards.map(({ Icon, k, v }) => (
-              <li key={k} className="fx-card rounded-[10px] border border-line bg-white p-4">
+              <li key={k} className="fx-card rounded-[10px] sm:last:col-span-2 lg:last:col-span-1 border border-line bg-white p-4">
                 <span className="flex h-7 w-7 items-center justify-center rounded-md bg-teal-800 text-white"><Icon className="h-4 w-4" /></span>
                 <h3 className="mt-2 text-[17px] font-bold leading-snug">{k}</h3>
                 <p className="mt-1 text-copy text-body">{v}</p>
