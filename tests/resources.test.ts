@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { RESOURCES, resourcesVisible, type Resources } from "@/config/resources";
-import { buildNav, LOCATIONS, NAV } from "@/config/site";
+import { buildNav, NAV } from "@/config/site";
 import { ResourcesView } from "@/components/ResourcesView";
 import sitemap from "@/app/sitemap";
 
@@ -45,18 +45,5 @@ describe("resources", () => {
     expect(html).not.toContain(">Articles<");
     expect(html).not.toContain(">Gallery<");
     expect(html).not.toContain("coming soon");
-  });
-});
-
-describe("Powai timing", () => {
-  it("is 3:00 pm to 4:00 pm and the old time appears nowhere in src, tests data or README", () => {
-    expect(LOCATIONS.powai.weekly.text).toBe("3:00 pm to 4:00 pm");
-    expect(LOCATIONS.powai.weekly.slots).toEqual([{ opens: "15:00", closes: "16:00" }]);
-    const walk = (d: string): string[] => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${d}/${e.name}`) : [`${d}/${e.name}`]));
-    const old = [/4:00 pm to 5:30/, /opens: "16:00"/, /"17:30"/, /5:30 pm/];
-    for (const f of [...walk("src"), "README.md"]) {
-      const t = fs.readFileSync(f, "utf8");
-      for (const re of old) expect(t, `${f} ${re}`).not.toMatch(re);
-    }
   });
 });

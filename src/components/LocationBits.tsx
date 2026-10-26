@@ -1,14 +1,12 @@
 import type { Location } from "@/config/site";
-import { directionsLink, telHref, waLocationHref } from "@/config/site";
+import { directionsLink, timingLines, telHref, waLocationHref } from "@/config/site";
 import { DirectionsIcon, PhoneIcon, WhatsAppIcon } from "./Icons";
 
 /** Mon-Sat line, plus a Sunday line only when config has an appointment note. */
 export function Timings({ loc }: { loc: Location }) {
   return (
     <div className="text-[16px] leading-[1.7] text-body" data-timings={loc.slug}>
-      <p>
-        {loc.weekly.days}: {loc.weekly.text}
-      </p>
+      {timingLines(loc).map((line) => <p key={line}>{line}</p>)}
       {loc.sunday.status === "appointment" && <p>Sunday: {loc.sunday.text}</p>}
     </div>
   );
