@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ImageSlot } from "@/components/ImageSlot";
 import { CallButton, WhatsAppButton } from "@/components/Buttons";
+import { ClosingCta } from "@/components/ClosingCta";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArrowRightIcon, CalendarIcon, ChatIcon, ClinicsIcon, ClipboardIcon, CompassIcon, ExperienceIcon, MedicalCrossIcon, PhoneIcon, StethoscopeIcon, VerifiedIcon } from "@/components/Icons";
@@ -116,6 +117,14 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* WHY CHOOSE: heading, then At a glance stats, then the 4 reason cards */}
+      <section className="bg-white pt-12" aria-labelledby="why-heading">
+        <div className="container-page">
+          <p className="text-center text-[15px] font-bold uppercase tracking-wide text-teal-800">Why choose Dr. Desai</p>
+          <h2 id="why-heading" className="mt-1 text-center text-h2 font-bold">Care Built On Clarity &amp; Consistency</h2>
+        </div>
+      </section>
+
       {/* AT A GLANCE */}
       <section className="border-y border-line bg-white py-8" aria-labelledby="glance-heading">
         <div className="container-page">
@@ -132,12 +141,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHY CHOOSE */}
-      <section className="bg-white py-12" aria-labelledby="why-heading">
+      <section className="bg-white pb-12" aria-label="Reasons to choose Dr. Desai">
         <div className="container-page">
-          <p className="text-center text-[15px] font-bold uppercase tracking-wide text-teal-800">Why choose Dr. Desai</p>
-          <h2 id="why-heading" className="mt-1 text-center text-h2 font-bold">Care Built On Clarity &amp; Consistency</h2>
-          <ul className="fx-grid mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="fx-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {WHY.map(({ n, Icon, title, text }) => (
               <li key={n} className="fx-card rounded-[10px] border border-line bg-white p-4">
                 <span className="flex h-8 w-8 items-center justify-center rounded-md bg-teal-800 text-white"><Icon className="h-[18px] w-[18px]" /></span>
@@ -174,16 +180,7 @@ export default function HomePage() {
       </section>
 
       {/* CLOSING CTA */}
-      <section className="on-dark bg-teal-800 py-12 text-center text-white" aria-labelledby="cta-heading">
-        <div className="container-page !max-w-[860px]">
-          <h2 id="cta-heading" className="fx-reveal text-h2 font-bold">Ready to book your visit?</h2>
-          <p className="mt-2 text-lead text-teal-50/90">Call or WhatsApp {PHONE.display}. Every enquiry goes straight to the clinic.</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <CallButton variant="white" className="fx-pulse" />
-            <WhatsAppButton variant="outline-light" label="WhatsApp Us" href={WA_GENERAL} />
-          </div>
-        </div>
-      </section>
+      <ClosingCta />
     </>
   );
 }

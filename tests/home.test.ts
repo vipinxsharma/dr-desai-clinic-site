@@ -18,7 +18,7 @@ describe("Home content rules", () => {
 
   it("has no locations strip; sections follow the approved order", () => {
     expect(homeSrc).not.toMatch(/Where to meet|home-locations|meet-heading/);
-    const order = ["hero-heading", "about-heading", 'aria-label="Our approach"', "services-heading", "glance-heading", "why-heading", "visit-heading", "cta-heading"];
+    const order = ["hero-heading", "about-heading", 'aria-label="Our approach"', "services-heading", "why-heading", "glance-heading", "Reasons to choose Dr. Desai", "visit-heading", "<ClosingCta"];
     const at = order.map((k) => homeSrc.indexOf(k));
     expect(at.every((i) => i >= 0)).toBe(true);
     expect([...at].sort((a, b) => a - b)).toEqual(at);
