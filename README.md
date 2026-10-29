@@ -16,7 +16,7 @@ All facts live in `src/config/site.ts` (phone, MMC number, `LOCATIONS` with addr
 None. Email and the two social links (Instagram, Facebook) are confirmed in `src/config/site.ts`.
 
 ## TODO before launch
-- `SITE.url`: confirm production domain (or set `NEXT_PUBLIC_SITE_URL`); canonical, sitemap, schema derive from it.
+- `SITE.url` (`src/config/site.ts`) is the single source for the site host (`https://www.drdesaihealthclinic.com`); canonical, og:url, sitemap, robots, JSON-LD and llms.txt derive from it. No env override.
 - Drop real photos into `<ImageSlot src=...>`; boxes are fixed-ratio so there is no layout shift.
 
 ## One phone number rule

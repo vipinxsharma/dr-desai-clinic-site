@@ -1,8 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { BRANCHES, EMAIL, LOCATIONS, MMC, PHONE, SOCIAL } from "@/config/site";
+import { BRANCHES, EMAIL, LOCATIONS, MMC, PHONE, SITE, SOCIAL } from "@/config/site";
 import { breadcrumbSchema, clinicSchema, pageMetadata, physicianSchema } from "@/lib/seo";
 
 const all = JSON.stringify([clinicSchema(), physicianSchema(), breadcrumbSchema([{ name: "Home", path: "/" }])]);
+
+describe("site host in schema", () => {
+  const HOST = "https://www.drdesaihealthclinic.com";
+  it("clinic and physician @id / url use the real host", () => {
+    expect(SITE.url).toBe(HOST);
+    const c = clinicSchema();
+    expect(c["@id"]).toBe(`${HOST}/#clinic`);
+    expect(c.url).toBe(HOST);
+    const p = physicianSchema();
+    expect(p["@id"]).toBe(`${HOST}/#physician`);
+    expect(p.url).toBe(`${HOST}/about`);
+    expect(p.worksFor).toEqual({ "@id": `${HOST}/#clinic` });
+  });
+
+  it("breadcrumb items use the real host", () => {
+    const b = breadcrumbSchema([{ name: "Home", path: "/" }, { name: "About", path: "/about" }]);
+    expect(b.itemListElement.map((i) => i.item)).toEqual([`${HOST}/`, `${HOST}/about`]);
+  });
+});
 
 describe("schema", () => {
   it("clinic schema has the single phone, landmark address and Mon-Sat hours", () => {
@@ -82,7 +101,8 @@ describe("schema", () => {
 describe("metadata", () => {
   it("sets title, description and canonical", () => {
     const m = pageMetadata({ title: "T", description: "D", path: "/about" });
-    expect(m.alternates?.canonical).toMatch(/\/about$/);
+    expect(m.alternates?.canonical).toBe("https://www.drdesaihealthclinic.com/about");
+    expect((m.openGraph as { url?: string }).url).toBe("https://www.drdesaihealthclinic.com/about");
     expect(m.title).toBe("T");
     expect(m.description).toBe("D");
   });
