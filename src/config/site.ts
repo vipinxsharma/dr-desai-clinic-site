@@ -7,8 +7,9 @@
 import { RESOURCES, resourcesVisible, type Resources } from "./resources";
 
 export const SITE = {
-  // TODO(domain): confirm production domain; canonical, sitemap and schema derive from this.
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.drdesaiclinic.in").replace(/\/$/, ""),
+  // Single source for the site host (canonical, og:url, metadataBase, sitemap, robots, JSON-LD, llms.txt).
+  // Primary host is www; the apex 308-redirects to it. Deliberately a constant: no env override. No trailing slash.
+  url: "https://www.drdesaihealthclinic.com",
   clinicName: "Dr. Desai's Health Clinic and Diabetes Center",
   doctorName: "Dr. Samruddha Desai",
   doctorTitle: "Consultant Physician & Diabetologist",
